@@ -1,19 +1,148 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
-    <title>北渚的主页</title>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>北渚的实验室 | 43333333.xyz</title>
     <style>
-        body { font-family: sans-serif; text-align: center; padding-top: 50px; background-color: #f0f0f0; }
-        h1 { color: #333; }
-        .box { background: white; padding: 20px; border-radius: 10px; display: inline-block; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        /* --- 全局样式：极简暗黑风 --- */
+        :root {
+            --bg-color: #0d1117;       /* GitHub Dark 背景色 */
+            --text-color: #c9d1d9;     /* 柔和的文字灰 */
+            --accent-color: #58a6ff;   /* 科技蓝链接色 */
+            --card-bg: #161b22;        /* 卡片背景色 */
+            --border-color: #30363d;   /* 边框颜色 */
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        /* --- 布局容器 --- */
+        .container {
+            max-width: 720px;
+            margin: 0 auto;
+            padding-top: 50px;
+        }
+
+        /* --- 头部：个人简介 --- */
+        header {
+            text-align: left;
+            margin-bottom: 60px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 20px;
+        }
+
+        h1 {
+            color: #ffffff;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            letter-spacing: -1px;
+        }
+
+        .bio {
+            font-size: 1.1em;
+            color: #8b949e;
+        }
+
+        .tags span {
+            background: var(--border-color);
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.85em;
+            margin-right: 5px;
+            color: var(--accent-color);
+        }
+
+        /* --- 文章列表区域 --- */
+        .post {
+            margin-bottom: 40px;
+            padding: 25px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            transition: transform 0.2s;
+        }
+
+        .post:hover {
+            border-color: var(--accent-color);
+            transform: translateY(-2px);
+        }
+
+        .post-date {
+            font-size: 0.9em;
+            color: #8b949e;
+            margin-bottom: 5px;
+            font-family: monospace; /* 代码字体，更有极客感 */
+        }
+
+        .post-title {
+            font-size: 1.5em;
+            margin: 10px 0;
+            color: #ffffff;
+        }
+
+        .post-content {
+            color: var(--text-color);
+        }
+
+        /* --- 页脚 --- */
+        footer {
+            text-align: center;
+            margin-top: 80px;
+            font-size: 0.8em;
+            color: #484f58;
+        }
+
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
-    <div class="box">
-        <h1>Hello World!</h1>
-        <p>这是我的第一个个人网站 (43333333.xyz)</p>
-        <p>集成电路与系统 | Linux | AI</p>
+
+    <div class="container">
+        <header>
+            <h1>北渚 (Běi Zhǔ)</h1>
+            <p class="bio">
+                Integrated Circuit Design & Integrated Systems Student.<br>
+                Exploring the world of <strong>Silicon, Linux, and AI</strong>.
+            </p>
+            <div class="tags">
+                <span>#IC设计</span>
+                <span>#Linux</span>
+                <span>#DeepLearning</span>
+                <span>#43333333.xyz</span>
+            </div>
+        </header>
+
+        <article class="post">
+            <div class="post-date">2026-01-30</div>
+            <h2 class="post-title">Hello World: 我的博客上线了</h2>
+            <p class="post-content">
+                这是我的第一个个人网站，部署在 GitHub Pages，通过 Cloudflare 加速。<br>
+                作为一个集成电路专业的学生，我不仅要和晶体管打交道，也要掌握 Linux 和网络部署。<br>
+                接下来我会在这里记录我的学习笔记，比如 Ubuntu 配置、Verilog 代码或者蓝桥杯备赛心得。
+            </p>
+        </article>
+
+        <article class="post">
+            <div class="post-date">2026-01-28</div>
+            <h2 class="post-title">关于 43333333.xyz 这个域名</h2>
+            <p class="post-content">
+                抢到了一个很有意思的纯数字域名。如果你是 IC 行业的，你会发现它像不像某种时钟频率？<br>
+                目前的计划是用它来做博客，以及跑一些私有的 AI 服务。
+            </p>
+        </article>
+
+        <footer>
+            <p>© 2026 北渚的实验室 | Powered by GitHub & Cloudflare</p>
+        </footer>
     </div>
+
 </body>
 </html>
