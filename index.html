@@ -446,12 +446,18 @@
             cursor: pointer;
             font-weight: bold;
             transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
         }
 
         .btn:hover {
             transform: scale(1.05);
             box-shadow: 0 5px 20px rgba(0, 255, 159, 0.5);
             filter: brightness(1.1);
+        }
+        
+        .btn:active {
+            transform: scale(0.98);
         }
 
         .message-list {
@@ -728,6 +734,31 @@
             height: 100%;
             background: linear-gradient(90deg, var(--accent-color), var(--accent-secondary));
             transition: width 0.3s;
+            box-shadow: 0 0 10px rgba(0, 255, 159, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* 进度条动画效果 - Progress bar animation */
+        .project-progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.3),
+                transparent
+            );
+            animation: shimmer 2s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
         }
         
         /* 淡入动画 - Fade-in animations */
@@ -1251,6 +1282,7 @@ endmodule
             });
         }
 
+        // 打字机效果 - Typewriter effect
         function typewriterEffect() {
             const texts = [
                 '探索集成电路设计的奥秘 🔬',
@@ -1324,6 +1356,7 @@ endmodule
             document.getElementById('quote').textContent = quote;
         }
 
+        // 逻辑门输入切换 - Toggle logic gate input
         function toggleGate(input) {
             state.gateInputs[input] = !state.gateInputs[input];
             const element = document.getElementById('input' + input);
@@ -1331,6 +1364,7 @@ endmodule
             updateGateOutput();
         }
 
+        // 更新逻辑门输出 - Update logic gate output
         function updateGateOutput() {
             const { A, B } = state.gateInputs;
             const gateType = document.getElementById('gate-type').value;
@@ -1350,16 +1384,19 @@ endmodule
             outputElement.classList.toggle('high', output);
         }
 
+        // 打开编辑器 - Open editor
         function openEditor() {
             document.getElementById('editor-modal').classList.add('active');
             document.body.style.overflow = 'hidden';
         }
 
+        // 关闭编辑器 - Close editor
         function closeEditor() {
             document.getElementById('editor-modal').classList.remove('active');
             document.body.style.overflow = '';
         }
 
+        // 清空编辑器 - Clear editor
         function clearEditor() {
             if (confirm('确定要清空编辑器内容吗？')) {
                 document.getElementById('article-title').value = '';
@@ -1391,6 +1428,7 @@ endmodule
             document.getElementById('preview-area').innerHTML = html;
         });
 
+        // 保存文章 - Save article
         function saveArticle(publish) {
             const title = document.getElementById('article-title').value.trim();
             const content = document.getElementById('markdown-editor').value.trim();
@@ -1422,6 +1460,7 @@ endmodule
             loadArticles();
         }
 
+        // 加载文章列表 - Load articles
         function loadArticles() {
             const container = document.getElementById('article-container');
             const publishedArticles = state.articles.filter(a => a.published);
@@ -1455,6 +1494,7 @@ endmodule
             }).join('');
         }
 
+        // 点赞文章 - Like article
         function likeArticle(id) {
             if (state.likes[id]) {
                 delete state.likes[id];
@@ -1465,6 +1505,7 @@ endmodule
             loadArticles();
         }
 
+        // 发送留言 - Post message
         function postMessage() {
             const input = document.getElementById('message-input');
             const content = input.value.trim();
@@ -1484,6 +1525,7 @@ endmodule
             loadMessages();
         }
 
+        // 加载留言列表 - Load messages
         function loadMessages() {
             const container = document.getElementById('message-list');
             
@@ -1503,6 +1545,7 @@ endmodule
             `).join('');
         }
 
+        // 发送弹幕 - Send barrage
         function sendBarrage() {
             const input = document.getElementById('barrage-input');
             const text = input.value.trim();
@@ -1520,6 +1563,7 @@ endmodule
             input.value = '';
         }
 
+        // 初始化滚动效果 - Initialize scroll effects
         function initScrollEffects() {
             const backToTop = document.getElementById('back-to-top');
             const progressBar = document.getElementById('reading-progress');
@@ -1538,10 +1582,12 @@ endmodule
             });
         }
 
+        // 滚动到顶部 - Scroll to top
         function scrollToTop() {
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
+        // 滚动到指定区域 - Scroll to section
         function scrollToSection(id) {
             document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
         }
@@ -1556,6 +1602,7 @@ endmodule
             setTimeout(() => ripple.remove(), 600);
         });
 
+        // 初始化科乐美秘籍 - Initialize Konami Code
         function initKonamiCode() {
             document.addEventListener('keydown', (e) => {
                 state.konamiCode.push(e.key);
@@ -1568,6 +1615,7 @@ endmodule
             });
         }
 
+        // 触发烟花效果 - Trigger fireworks
         function triggerFireworks() {
             alert('🎉 恭喜你发现了彩蛋！');
             
@@ -1597,6 +1645,7 @@ endmodule
             }, 2000);
         }
 
+        // 控制台艺术字 - Console art
         function consoleArt() {
             console.log(`%c
 ╔══════════════════════════════════════╗
