@@ -11,17 +11,17 @@
             --text-dark: #c9d1d9;
             --accent-dark: #00ff9f;
             --accent-secondary-dark: #58a6ff;
-            --card-bg-dark: #12171d;
+            --card-bg-dark: rgba(18, 23, 29, 0.95);
             --border-dark: #1e2530;
-            --code-bg-dark: #1a1f26;
+            --code-bg-dark: rgba(26, 31, 38, 0.95);
             
             --bg-light: #ffffff;
             --text-light: #1a1a1a;
             --accent-light: #0ea5e9;
             --accent-secondary-light: #10b981;
-            --card-bg-light: #f8fafc;
+            --card-bg-light: rgba(248, 250, 252, 0.95);
             --border-light: #e2e8f0;
-            --code-bg-light: #f1f5f9;
+            --code-bg-light: rgba(241, 245, 249, 0.95);
         }
 
         [data-theme="dark"] {
@@ -49,6 +49,10 @@
             margin: 0;
             padding: 0;
         }
+        
+        html {
+            scroll-behavior: smooth;
+        }
 
         body {
             font-family: 'SF Mono', 'Consolas', 'Monaco', monospace;
@@ -60,8 +64,8 @@
             transition: background-color 0.3s, color 0.3s;
         }
 
-        h1 { font-size: 2.5em; margin: 0.5em 0; }
-        h2 { font-size: 1.8em; margin: 0.5em 0; }
+        h1 { font-size: 2.5em; margin: 0.5em 0; text-shadow: 0 2px 10px rgba(0, 255, 159, 0.2); }
+        h2 { font-size: 1.8em; margin: 0.5em 0; text-shadow: 0 2px 8px rgba(0, 255, 159, 0.15); }
         h3 { font-size: 1.4em; margin: 0.5em 0; }
 
         code, pre {
@@ -137,8 +141,8 @@
         }
 
         @keyframes neon-glow {
-            0%, 100% { text-shadow: 0 0 10px var(--accent-color); }
-            50% { text-shadow: 0 0 20px var(--accent-color), 0 0 30px var(--accent-color); }
+            0%, 100% { text-shadow: 0 0 10px var(--accent-color), 0 2px 5px rgba(0, 255, 159, 0.5); }
+            50% { text-shadow: 0 0 20px var(--accent-color), 0 0 30px var(--accent-color), 0 2px 10px rgba(0, 255, 159, 0.8); }
         }
 
         .nav-links {
@@ -164,7 +168,7 @@
             background: var(--accent-color);
             color: var(--bg-color);
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,255,159,0.3);
+            box-shadow: 0 5px 20px rgba(0, 255, 159, 0.4);
         }
 
         .theme-toggle {
@@ -194,12 +198,14 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            filter: drop-shadow(0 0 20px rgba(0, 255, 159, 0.3));
         }
 
         .typewriter {
             font-size: 1.2em;
             color: var(--accent-secondary);
             min-height: 30px;
+            text-shadow: 0 2px 10px rgba(88, 166, 255, 0.5);
         }
 
         .utility-bar {
@@ -212,6 +218,8 @@
             border: 1px solid var(--border-color);
             border-radius: 12px;
             margin-bottom: 40px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
         }
 
         .utility-item {
@@ -222,6 +230,7 @@
             display: block;
             color: var(--accent-color);
             font-size: 1.2em;
+            text-shadow: 0 2px 10px rgba(0, 255, 159, 0.3);
         }
 
         .module-grid {
@@ -239,6 +248,8 @@
             transition: all 0.3s;
             position: relative;
             overflow: hidden;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
         }
 
         .module-card::before {
@@ -259,12 +270,14 @@
 
         .module-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0,255,159,0.2);
+            box-shadow: 0 12px 40px rgba(0, 255, 159, 0.25);
+            border-color: var(--accent-color);
         }
 
         .module-card h3 {
             margin-bottom: 15px;
             color: var(--accent-color);
+            text-shadow: 0 2px 10px rgba(0, 255, 159, 0.3);
         }
 
         .logic-gate-tool {
@@ -272,6 +285,8 @@
             padding: 20px;
             border-radius: 8px;
             margin-top: 15px;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
         }
 
         .gate-inputs {
@@ -299,6 +314,8 @@
 
         .gate-toggle.active {
             background: var(--accent-color);
+            box-shadow: 0 0 15px rgba(0, 255, 159, 0.5);
+        }
         }
 
         .gate-toggle::after {
@@ -411,6 +428,13 @@
             border-radius: 6px;
             color: var(--text-color);
             font-family: inherit;
+            transition: all 0.3s;
+        }
+        
+        .message-input:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 2px rgba(0, 255, 159, 0.2);
         }
 
         .btn {
@@ -422,11 +446,18 @@
             cursor: pointer;
             font-weight: bold;
             transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
         }
 
         .btn:hover {
             transform: scale(1.05);
-            box-shadow: 0 5px 15px rgba(0,255,159,0.4);
+            box-shadow: 0 5px 20px rgba(0, 255, 159, 0.5);
+            filter: brightness(1.1);
+        }
+        
+        .btn:active {
+            transform: scale(0.98);
         }
 
         .message-list {
@@ -440,6 +471,13 @@
             border-radius: 6px;
             margin-bottom: 10px;
             border-left: 3px solid var(--accent-color);
+            backdrop-filter: blur(5px);
+            transition: all 0.3s;
+        }
+        
+        .message-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 2px 10px rgba(0, 255, 159, 0.15);
         }
 
         .barrage-container {
@@ -459,7 +497,7 @@
             font-size: 18px;
             font-weight: bold;
             color: var(--accent-color);
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+            text-shadow: 0 0 10px rgba(0, 255, 159, 0.8), 2px 2px 8px rgba(0, 0, 0, 0.9);
             animation: barrage-move 10s linear;
         }
 
@@ -613,6 +651,13 @@
             border-radius: 6px;
             color: var(--text-color);
             font-family: inherit;
+            transition: all 0.3s;
+        }
+        
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 2px rgba(0, 255, 159, 0.2);
         }
 
         .editor-actions {
@@ -638,17 +683,18 @@
             pointer-events: none;
             animation: ripple-effect 0.6s ease-out;
             z-index: 9999;
+            box-shadow: 0 0 10px var(--accent-color);
         }
 
         @keyframes ripple-effect {
             from {
                 width: 0;
                 height: 0;
-                opacity: 1;
+                opacity: 0.8;
             }
             to {
-                width: 100px;
-                height: 100px;
+                width: 120px;
+                height: 120px;
                 opacity: 0;
             }
         }
@@ -658,6 +704,14 @@
             padding: 15px;
             border-radius: 8px;
             margin-bottom: 15px;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s;
+        }
+        
+        .project-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 15px rgba(0, 255, 159, 0.15);
         }
 
         .project-header {
@@ -680,7 +734,56 @@
             height: 100%;
             background: linear-gradient(90deg, var(--accent-color), var(--accent-secondary));
             transition: width 0.3s;
+            box-shadow: 0 0 10px rgba(0, 255, 159, 0.5);
+            position: relative;
+            overflow: hidden;
         }
+        
+        /* 进度条动画效果 - Progress bar animation */
+        .project-progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.3),
+                transparent
+            );
+            animation: shimmer 2s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        /* 淡入动画 - Fade-in animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .module-card, .article-item, .project-card {
+            animation: fadeInUp 0.6s ease-out;
+        }
+        
+        /* 为不同卡片添加延迟动画 - Stagger animation delays */
+        .module-card:nth-child(1) { animation-delay: 0.1s; }
+        .module-card:nth-child(2) { animation-delay: 0.2s; }
+        .module-card:nth-child(3) { animation-delay: 0.3s; }
+        .module-card:nth-child(4) { animation-delay: 0.4s; }
+        .module-card:nth-child(5) { animation-delay: 0.5s; }
+        .module-card:nth-child(6) { animation-delay: 0.6s; }
 
         @media (max-width: 768px) {
             .module-grid {
@@ -704,6 +807,27 @@
                 bottom: 60px;
                 right: 10px;
                 flex-direction: column;
+            }
+            
+            /* 移动端优化 - Mobile optimizations */
+            .utility-bar {
+                font-size: 0.9em;
+            }
+            
+            .module-card {
+                padding: 20px;
+            }
+            
+            body {
+                font-size: 16px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            h2 {
+                font-size: 1.5em;
             }
         }
     </style>
@@ -957,6 +1081,7 @@ endmodule
     </div>
 
     <script>
+        // 全局状态管理 - Global state management
         const state = {
             theme: localStorage.getItem('theme') || 'dark',
             gateInputs: { A: false, B: false },
@@ -964,11 +1089,12 @@ endmodule
             messages: JSON.parse(localStorage.getItem('messages')) || [],
             visitors: parseInt(localStorage.getItem('visitors')) || 0,
             likes: JSON.parse(localStorage.getItem('likes')) || {},
-            launchDate: localStorage.getItem('launchDate') || '2024-02-03T00:00:00.000Z',
+            launchDate: localStorage.getItem('launchDate') || '2026-01-29T00:00:00.000Z',
             konamiCode: [],
             konamiSequence: ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a']
         };
 
+        // 初始化函数 - Initialization function
         function init() {
             setTheme(state.theme);
             updateClock();
@@ -996,17 +1122,20 @@ endmodule
             updateVisitorCount();
         }
 
+        // 主题切换 - Theme toggle
         function toggleTheme() {
             state.theme = state.theme === 'dark' ? 'light' : 'dark';
             setTheme(state.theme);
         }
 
+        // 设置主题 - Set theme
         function setTheme(theme) {
             document.body.setAttribute('data-theme', theme);
             document.getElementById('theme-icon').textContent = theme === 'dark' ? '🌙' : '☀️';
             localStorage.setItem('theme', theme);
         }
 
+        // 初始化矩阵雨效果 - Initialize Matrix Rain effect
         function initMatrixRain() {
             const canvas = document.getElementById('matrix-canvas');
             const ctx = canvas.getContext('2d');
@@ -1014,16 +1143,17 @@ endmodule
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
             
-            const chars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホ';
+            // 使用中文数字和IC设计术语 - Using Chinese numbers and IC design terms
+            const chars = '01零一二三四五六七八九VerilogFPGARISCVHDLASICSOCCPU';
             const fontSize = 14;
             const columns = canvas.width / fontSize;
             const drops = Array(Math.floor(columns)).fill(1);
             
             function draw() {
-                ctx.fillStyle = 'rgba(10, 14, 20, 0.05)';
+                ctx.fillStyle = 'rgba(10, 14, 20, 0.08)';
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
                 
-                ctx.fillStyle = state.theme === 'dark' ? '#00ff9f' : '#0ea5e9';
+                ctx.fillStyle = state.theme === 'dark' ? 'rgba(0, 255, 159, 0.5)' : 'rgba(14, 165, 233, 0.5)';
                 ctx.font = fontSize + 'px monospace';
                 
                 for (let i = 0; i < drops.length; i++) {
@@ -1045,6 +1175,7 @@ endmodule
             });
         }
 
+        // 初始化粒子动画 - Initialize particle animation
         function initParticles() {
             const canvas = document.getElementById('particle-canvas');
             const ctx = canvas.getContext('2d');
@@ -1056,6 +1187,7 @@ endmodule
             const particleCount = window.innerWidth < 768 ? 30 : 60;
             const mouse = { x: null, y: null, radius: 150 };
             
+            // 粒子类 - Particle class
             class Particle {
                 constructor() {
                     this.x = Math.random() * canvas.width;
@@ -1150,6 +1282,7 @@ endmodule
             });
         }
 
+        // 打字机效果 - Typewriter effect
         function typewriterEffect() {
             const texts = [
                 '探索集成电路设计的奥秘 🔬',
@@ -1187,12 +1320,14 @@ endmodule
             type();
         }
 
+        // 更新时钟 - Update clock
         function updateClock() {
             const now = new Date();
             const time = now.toLocaleTimeString('zh-CN', { hour12: false });
             document.getElementById('clock').textContent = time;
         }
 
+        // 更新运行时间 - Update runtime
         function updateRuntime() {
             const launch = new Date(state.launchDate);
             const now = new Date();
@@ -1200,10 +1335,12 @@ endmodule
             document.getElementById('runtime').textContent = `${diff} 天`;
         }
 
+        // 更新访客统计 - Update visitor count
         function updateVisitorCount() {
             document.getElementById('visitor-count').textContent = state.visitors.toLocaleString();
         }
 
+        // 加载随机格言 - Load random quote
         function loadRandomQuote() {
             const quotes = [
                 'Talk is cheap. Show me the code. - Linus Torvalds',
@@ -1219,6 +1356,7 @@ endmodule
             document.getElementById('quote').textContent = quote;
         }
 
+        // 逻辑门输入切换 - Toggle logic gate input
         function toggleGate(input) {
             state.gateInputs[input] = !state.gateInputs[input];
             const element = document.getElementById('input' + input);
@@ -1226,6 +1364,7 @@ endmodule
             updateGateOutput();
         }
 
+        // 更新逻辑门输出 - Update logic gate output
         function updateGateOutput() {
             const { A, B } = state.gateInputs;
             const gateType = document.getElementById('gate-type').value;
@@ -1245,16 +1384,19 @@ endmodule
             outputElement.classList.toggle('high', output);
         }
 
+        // 打开编辑器 - Open editor
         function openEditor() {
             document.getElementById('editor-modal').classList.add('active');
             document.body.style.overflow = 'hidden';
         }
 
+        // 关闭编辑器 - Close editor
         function closeEditor() {
             document.getElementById('editor-modal').classList.remove('active');
             document.body.style.overflow = '';
         }
 
+        // 清空编辑器 - Clear editor
         function clearEditor() {
             if (confirm('确定要清空编辑器内容吗？')) {
                 document.getElementById('article-title').value = '';
@@ -1286,6 +1428,7 @@ endmodule
             document.getElementById('preview-area').innerHTML = html;
         });
 
+        // 保存文章 - Save article
         function saveArticle(publish) {
             const title = document.getElementById('article-title').value.trim();
             const content = document.getElementById('markdown-editor').value.trim();
@@ -1317,6 +1460,7 @@ endmodule
             loadArticles();
         }
 
+        // 加载文章列表 - Load articles
         function loadArticles() {
             const container = document.getElementById('article-container');
             const publishedArticles = state.articles.filter(a => a.published);
@@ -1350,6 +1494,7 @@ endmodule
             }).join('');
         }
 
+        // 点赞文章 - Like article
         function likeArticle(id) {
             if (state.likes[id]) {
                 delete state.likes[id];
@@ -1360,6 +1505,7 @@ endmodule
             loadArticles();
         }
 
+        // 发送留言 - Post message
         function postMessage() {
             const input = document.getElementById('message-input');
             const content = input.value.trim();
@@ -1379,6 +1525,7 @@ endmodule
             loadMessages();
         }
 
+        // 加载留言列表 - Load messages
         function loadMessages() {
             const container = document.getElementById('message-list');
             
@@ -1398,6 +1545,7 @@ endmodule
             `).join('');
         }
 
+        // 发送弹幕 - Send barrage
         function sendBarrage() {
             const input = document.getElementById('barrage-input');
             const text = input.value.trim();
@@ -1415,6 +1563,7 @@ endmodule
             input.value = '';
         }
 
+        // 初始化滚动效果 - Initialize scroll effects
         function initScrollEffects() {
             const backToTop = document.getElementById('back-to-top');
             const progressBar = document.getElementById('reading-progress');
@@ -1433,10 +1582,12 @@ endmodule
             });
         }
 
+        // 滚动到顶部 - Scroll to top
         function scrollToTop() {
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
+        // 滚动到指定区域 - Scroll to section
         function scrollToSection(id) {
             document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
         }
@@ -1451,6 +1602,7 @@ endmodule
             setTimeout(() => ripple.remove(), 600);
         });
 
+        // 初始化科乐美秘籍 - Initialize Konami Code
         function initKonamiCode() {
             document.addEventListener('keydown', (e) => {
                 state.konamiCode.push(e.key);
@@ -1463,6 +1615,7 @@ endmodule
             });
         }
 
+        // 触发烟花效果 - Trigger fireworks
         function triggerFireworks() {
             alert('🎉 恭喜你发现了彩蛋！');
             
@@ -1492,6 +1645,7 @@ endmodule
             }, 2000);
         }
 
+        // 控制台艺术字 - Console art
         function consoleArt() {
             console.log(`%c
 ╔══════════════════════════════════════╗
