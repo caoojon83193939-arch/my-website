@@ -49,6 +49,10 @@
             margin: 0;
             padding: 0;
         }
+        
+        html {
+            scroll-behavior: smooth;
+        }
 
         body {
             font-family: 'SF Mono', 'Consolas', 'Monaco', monospace;
@@ -424,6 +428,13 @@
             border-radius: 6px;
             color: var(--text-color);
             font-family: inherit;
+            transition: all 0.3s;
+        }
+        
+        .message-input:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 2px rgba(0, 255, 159, 0.2);
         }
 
         .btn {
@@ -634,6 +645,13 @@
             border-radius: 6px;
             color: var(--text-color);
             font-family: inherit;
+            transition: all 0.3s;
+        }
+        
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 2px rgba(0, 255, 159, 0.2);
         }
 
         .editor-actions {
@@ -659,17 +677,18 @@
             pointer-events: none;
             animation: ripple-effect 0.6s ease-out;
             z-index: 9999;
+            box-shadow: 0 0 10px var(--accent-color);
         }
 
         @keyframes ripple-effect {
             from {
                 width: 0;
                 height: 0;
-                opacity: 1;
+                opacity: 0.8;
             }
             to {
-                width: 100px;
-                height: 100px;
+                width: 120px;
+                height: 120px;
                 opacity: 0;
             }
         }
@@ -710,6 +729,30 @@
             background: linear-gradient(90deg, var(--accent-color), var(--accent-secondary));
             transition: width 0.3s;
         }
+        
+        /* 淡入动画 - Fade-in animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .module-card, .article-item, .project-card {
+            animation: fadeInUp 0.6s ease-out;
+        }
+        
+        /* 为不同卡片添加延迟动画 - Stagger animation delays */
+        .module-card:nth-child(1) { animation-delay: 0.1s; }
+        .module-card:nth-child(2) { animation-delay: 0.2s; }
+        .module-card:nth-child(3) { animation-delay: 0.3s; }
+        .module-card:nth-child(4) { animation-delay: 0.4s; }
+        .module-card:nth-child(5) { animation-delay: 0.5s; }
+        .module-card:nth-child(6) { animation-delay: 0.6s; }
 
         @media (max-width: 768px) {
             .module-grid {
@@ -733,6 +776,27 @@
                 bottom: 60px;
                 right: 10px;
                 flex-direction: column;
+            }
+            
+            /* 移动端优化 - Mobile optimizations */
+            .utility-bar {
+                font-size: 0.9em;
+            }
+            
+            .module-card {
+                padding: 20px;
+            }
+            
+            body {
+                font-size: 16px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            h2 {
+                font-size: 1.5em;
             }
         }
     </style>
@@ -986,6 +1050,7 @@ endmodule
     </div>
 
     <script>
+        // 全局状态管理 - Global state management
         const state = {
             theme: localStorage.getItem('theme') || 'dark',
             gateInputs: { A: false, B: false },
@@ -998,6 +1063,7 @@ endmodule
             konamiSequence: ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a']
         };
 
+        // 初始化函数 - Initialization function
         function init() {
             setTheme(state.theme);
             updateClock();
@@ -1025,17 +1091,20 @@ endmodule
             updateVisitorCount();
         }
 
+        // 主题切换 - Theme toggle
         function toggleTheme() {
             state.theme = state.theme === 'dark' ? 'light' : 'dark';
             setTheme(state.theme);
         }
 
+        // 设置主题 - Set theme
         function setTheme(theme) {
             document.body.setAttribute('data-theme', theme);
             document.getElementById('theme-icon').textContent = theme === 'dark' ? '🌙' : '☀️';
             localStorage.setItem('theme', theme);
         }
 
+        // 初始化矩阵雨效果 - Initialize Matrix Rain effect
         function initMatrixRain() {
             const canvas = document.getElementById('matrix-canvas');
             const ctx = canvas.getContext('2d');
@@ -1043,6 +1112,7 @@ endmodule
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
             
+            // 使用中文数字和IC设计术语 - Using Chinese numbers and IC design terms
             const chars = '01零一二三四五六七八九VerilogFPGARISCVHDLASICSOCCPU';
             const fontSize = 14;
             const columns = canvas.width / fontSize;
@@ -1074,6 +1144,7 @@ endmodule
             });
         }
 
+        // 初始化粒子动画 - Initialize particle animation
         function initParticles() {
             const canvas = document.getElementById('particle-canvas');
             const ctx = canvas.getContext('2d');
@@ -1085,6 +1156,7 @@ endmodule
             const particleCount = window.innerWidth < 768 ? 30 : 60;
             const mouse = { x: null, y: null, radius: 150 };
             
+            // 粒子类 - Particle class
             class Particle {
                 constructor() {
                     this.x = Math.random() * canvas.width;
@@ -1216,12 +1288,14 @@ endmodule
             type();
         }
 
+        // 更新时钟 - Update clock
         function updateClock() {
             const now = new Date();
             const time = now.toLocaleTimeString('zh-CN', { hour12: false });
             document.getElementById('clock').textContent = time;
         }
 
+        // 更新运行时间 - Update runtime
         function updateRuntime() {
             const launch = new Date(state.launchDate);
             const now = new Date();
@@ -1229,10 +1303,12 @@ endmodule
             document.getElementById('runtime').textContent = `${diff} 天`;
         }
 
+        // 更新访客统计 - Update visitor count
         function updateVisitorCount() {
             document.getElementById('visitor-count').textContent = state.visitors.toLocaleString();
         }
 
+        // 加载随机格言 - Load random quote
         function loadRandomQuote() {
             const quotes = [
                 'Talk is cheap. Show me the code. - Linus Torvalds',
