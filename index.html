@@ -934,11 +934,10 @@ netstat -tulpn           # 端口监听</pre>
 ## 标题示例
 这是**粗体**和*斜体*
 
-\`\`\`verilog
-// 代码示例
+示例代码：
+verilog
 module example;
 endmodule
-\`\`\`
 
 - 列表项1
 - 列表项2"></textarea>
@@ -1265,8 +1264,14 @@ endmodule
             }
         }
 
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
         document.getElementById('markdown-editor').addEventListener('input', (e) => {
-            const markdown = e.target.value;
+            const markdown = escapeHtml(e.target.value);
             let html = markdown
                 .replace(/^### (.*$)/gim, '<h3>$1</h3>')
                 .replace(/^## (.*$)/gim, '<h2>$1</h2>')
@@ -1321,22 +1326,28 @@ endmodule
                 return;
             }
             
-            container.innerHTML = publishedArticles.map(article => `
+            container.innerHTML = publishedArticles.map(article => {
+                const escapedTitle = escapeHtml(article.title);
+                const escapedContent = escapeHtml(article.content.substring(0, 150)) + (article.content.length > 150 ? '...' : '');
+                const escapedTags = article.tags.map(tag => `<span class="tag">#${escapeHtml(tag)}</span>`).join('');
+                
+                return `
                 <div class="article-item">
-                    <h3>${article.title}</h3>
-                    <p>${article.content.substring(0, 150)}${article.content.length > 150 ? '...' : ''}</p>
+                    <h3>${escapedTitle}</h3>
+                    <p>${escapedContent}</p>
                     <div class="article-meta">
                         <span>📅 ${new Date(article.date).toLocaleDateString('zh-CN')}</span>
-                        <span>📁 ${article.category}</span>
+                        <span>📁 ${escapeHtml(article.category)}</span>
                         <button class="like-btn ${state.likes[article.id] ? 'liked' : ''}" onclick="likeArticle(${article.id})">
                             ❤️ ${article.likes + (state.likes[article.id] ? 1 : 0)}
                         </button>
                     </div>
                     <div class="article-tags">
-                        ${article.tags.map(tag => `<span class="tag">#${tag}</span>`).join('')}
+                        ${escapedTags}
                     </div>
                 </div>
-            `).join('');
+            `;
+            }).join('');
         }
 
         function likeArticle(id) {
@@ -1382,7 +1393,7 @@ endmodule
                     <span style="float: right; font-size: 0.85em; color: var(--accent-secondary);">
                         ${new Date(msg.date).toLocaleString('zh-CN')}
                     </span>
-                    <p style="margin-top: 5px;">${msg.content}</p>
+                    <p style="margin-top: 5px;">${escapeHtml(msg.content)}</p>
                 </div>
             `).join('');
         }
