@@ -964,7 +964,7 @@ endmodule
             messages: JSON.parse(localStorage.getItem('messages')) || [],
             visitors: parseInt(localStorage.getItem('visitors')) || 0,
             likes: JSON.parse(localStorage.getItem('likes')) || {},
-            launchDate: localStorage.getItem('launchDate') || new Date().toISOString(),
+            launchDate: localStorage.getItem('launchDate') || '2024-02-03T00:00:00.000Z',
             konamiCode: [],
             konamiSequence: ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a']
         };
@@ -1276,8 +1276,8 @@ endmodule
                 .replace(/^### (.*$)/gim, '<h3>$1</h3>')
                 .replace(/^## (.*$)/gim, '<h2>$1</h2>')
                 .replace(/^# (.*$)/gim, '<h1>$1</h1>')
-                .replace(/\*\*(.*)\*\*/gim, '<strong>$1</strong>')
-                .replace(/\*(.*)\*/gim, '<em>$1</em>')
+                .replace(/\*\*(.+?)\*\*/gim, '<strong>$1</strong>')
+                .replace(/\*(.+?)\*/gim, '<em>$1</em>')
                 .replace(/```(\w+)?\n([\s\S]*?)```/gim, '<pre><code>$2</code></pre>')
                 .replace(/`([^`]+)`/gim, '<code>$1</code>')
                 .replace(/^- (.*$)/gim, '<li>$1</li>')
