@@ -4,152 +4,991 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>北渚的实验室 | 43333333.xyz</title>
+    <meta name="description" content="集成电路设计与集成系统学生的个人博客 - IC设计、Linux、AI探索之旅">
     <style>
-        /* --- 全局样式：极简暗黑风 --- */
+        /* --- 全局样式：极客暗黑风 --- */
         :root {
-            --bg-color: #0d1117;       /* GitHub Dark 背景色 */
-            --text-color: #c9d1d9;     /* 柔和的文字灰 */
-            --accent-color: #58a6ff;   /* 科技蓝链接色 */
-            --card-bg: #161b22;        /* 卡片背景色 */
-            --border-color: #30363d;   /* 边框颜色 */
+            --bg-color: #0a0e14;
+            --text-color: #c9d1d9;
+            --accent-color: #00ff9f;
+            --accent-secondary: #58a6ff;
+            --card-bg: #12171d;
+            --border-color: #1e2530;
+            --terminal-green: #00ff9f;
+            --warning-color: #f0c674;
+            --error-color: #ff6b6b;
+            --code-bg: #1a1f26;
+        }
+
+        * {
+            box-sizing: border-box;
+            scroll-behavior: smooth;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            font-family: 'JetBrains Mono', 'Fira Code', 'SF Mono', Consolas, monospace;
             background-color: var(--bg-color);
             color: var(--text-color);
-            line-height: 1.6;
+            line-height: 1.7;
             margin: 0;
-            padding: 20px;
+            padding: 0;
+            min-height: 100vh;
         }
 
-        /* --- 布局容器 --- */
-        .container {
-            max-width: 720px;
-            margin: 0 auto;
-            padding-top: 50px;
+        /* --- 矩阵背景效果 --- */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(ellipse at 50% 0%, rgba(0, 255, 159, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 50%, rgba(88, 166, 255, 0.05) 0%, transparent 40%);
+            pointer-events: none;
+            z-index: -1;
         }
 
-        /* --- 头部：个人简介 --- */
-        header {
-            text-align: left;
-            margin-bottom: 60px;
+        /* --- 导航栏 --- */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(10, 14, 20, 0.95);
+            backdrop-filter: blur(10px);
             border-bottom: 1px solid var(--border-color);
-            padding-bottom: 20px;
+            z-index: 1000;
+            padding: 0 20px;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 60px;
+        }
+
+        .nav-logo {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: var(--terminal-green);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-logo::before {
+            content: '>';
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--terminal-green);
+            background: rgba(0, 255, 159, 0.1);
+            border-color: rgba(0, 255, 159, 0.3);
+        }
+
+        .nav-links a::before {
+            content: './';
+            color: var(--accent-secondary);
+            opacity: 0.6;
+        }
+
+        /* --- 移动端汉堡菜单 --- */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: 1px solid var(--border-color);
+            color: var(--terminal-green);
+            font-size: 1.5em;
+            cursor: pointer;
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 60px;
+                left: 0;
+                right: 0;
+                background: rgba(10, 14, 20, 0.98);
+                flex-direction: column;
+                padding: 20px;
+                border-bottom: 1px solid var(--border-color);
+            }
+            .nav-links.show {
+                display: flex;
+            }
+            .nav-links a {
+                padding: 12px 16px;
+            }
+        }
+
+        /* --- 主容器 --- */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 100px 20px 40px;
+        }
+
+        /* --- 终端风格头部 --- */
+        header {
+            margin-bottom: 50px;
+            padding: 30px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .terminal-bar {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .terminal-btn {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .terminal-btn.red { background: #ff5f56; }
+        .terminal-btn.yellow { background: #ffbd2e; }
+        .terminal-btn.green { background: #27ca40; }
+
+        .terminal-title {
+            color: #6e7681;
+            font-size: 0.8em;
+            margin-left: auto;
+        }
+
+        .header-content {
+            padding: 10px 0;
         }
 
         h1 {
-            color: #ffffff;
-            font-size: 2.5em;
-            margin-bottom: 10px;
+            color: var(--terminal-green);
+            font-size: 2em;
+            margin: 0 0 15px 0;
             letter-spacing: -1px;
         }
 
+        h1::before {
+            content: '$ whoami → ';
+            color: var(--accent-secondary);
+            font-size: 0.8em;
+        }
+
         .bio {
+            font-size: 0.95em;
+            color: #8b949e;
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+
+        .bio code {
+            background: var(--code-bg);
+            padding: 2px 6px;
+            border-radius: 3px;
+            color: var(--warning-color);
+        }
+
+        .status-line {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            font-size: 0.85em;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px dashed var(--border-color);
+        }
+
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--terminal-green);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* --- 分类筛选 --- */
+        .filter-section {
+            margin-bottom: 30px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .filter-label {
+            color: var(--accent-secondary);
+            font-size: 0.9em;
+        }
+
+        .filter-btn {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            padding: 6px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.85em;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: rgba(0, 255, 159, 0.1);
+            border-color: var(--terminal-green);
+            color: var(--terminal-green);
+        }
+
+        /* --- 模块卡片 --- */
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 50px;
+        }
+
+        .module-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 25px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .module-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--terminal-green), var(--accent-secondary));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .module-card:hover {
+            border-color: var(--terminal-green);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 255, 159, 0.1);
+        }
+
+        .module-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .module-icon {
+            font-size: 2em;
+            margin-bottom: 15px;
+        }
+
+        .module-title {
             font-size: 1.1em;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+
+        .module-desc {
+            font-size: 0.85em;
             color: #8b949e;
         }
 
-        .tags span {
-            background: var(--border-color);
-            padding: 3px 8px;
-            border-radius: 4px;
-            font-size: 0.85em;
-            margin-right: 5px;
-            color: var(--accent-color);
+        .module-count {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--code-bg);
+            padding: 3px 10px;
+            border-radius: 10px;
+            font-size: 0.75em;
+            color: var(--terminal-green);
         }
 
         /* --- 文章列表区域 --- */
+        .section-title {
+            font-size: 1.3em;
+            color: #fff;
+            margin: 40px 0 25px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title::before {
+            content: '#';
+            color: var(--terminal-green);
+        }
+
+        .posts-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
         .post {
-            margin-bottom: 40px;
             padding: 25px;
             background: var(--card-bg);
             border: 1px solid var(--border-color);
             border-radius: 8px;
-            transition: transform 0.2s;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .post::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: var(--terminal-green);
+            border-radius: 3px 0 0 3px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
 
         .post:hover {
-            border-color: var(--accent-color);
-            transform: translateY(-2px);
+            border-color: rgba(0, 255, 159, 0.5);
+            transform: translateX(5px);
+        }
+
+        .post:hover::before {
+            opacity: 1;
+        }
+
+        .post-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
         .post-date {
-            font-size: 0.9em;
-            color: #8b949e;
-            margin-bottom: 5px;
-            font-family: monospace; /* 代码字体，更有极客感 */
+            font-size: 0.85em;
+            color: #6e7681;
+        }
+
+        .post-date::before {
+            content: '📅 ';
+        }
+
+        .post-category {
+            font-size: 0.75em;
+            padding: 3px 10px;
+            border-radius: 12px;
+            background: rgba(88, 166, 255, 0.1);
+            color: var(--accent-secondary);
+            border: 1px solid rgba(88, 166, 255, 0.3);
+        }
+
+        .post-category.study { 
+            background: rgba(0, 255, 159, 0.1); 
+            color: var(--terminal-green);
+            border-color: rgba(0, 255, 159, 0.3);
+        }
+
+        .post-category.tech { 
+            background: rgba(88, 166, 255, 0.1); 
+            color: var(--accent-secondary);
+            border-color: rgba(88, 166, 255, 0.3);
+        }
+
+        .post-category.life { 
+            background: rgba(240, 198, 116, 0.1); 
+            color: var(--warning-color);
+            border-color: rgba(240, 198, 116, 0.3);
         }
 
         .post-title {
-            font-size: 1.5em;
-            margin: 10px 0;
+            font-size: 1.25em;
+            margin: 0 0 12px 0;
             color: #ffffff;
         }
 
-        .post-content {
-            color: var(--text-color);
+        .post-title a {
+            color: inherit;
+            text-decoration: none;
+            transition: color 0.3s ease;
         }
+
+        .post-title a:hover {
+            color: var(--terminal-green);
+        }
+
+        .post-excerpt {
+            font-size: 0.9em;
+            color: #8b949e;
+            line-height: 1.7;
+        }
+
+        .post-tags {
+            display: flex;
+            gap: 8px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .post-tag {
+            font-size: 0.75em;
+            color: #6e7681;
+            background: var(--code-bg);
+            padding: 2px 8px;
+            border-radius: 3px;
+        }
+
+        .post-tag::before {
+            content: '#';
+            color: var(--accent-secondary);
+        }
+
+        /* --- 代码块样式 --- */
+        .code-block {
+            background: var(--code-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 15px;
+            margin: 15px 0;
+            overflow-x: auto;
+            font-size: 0.85em;
+        }
+
+        .code-block .comment { color: #6e7681; }
+        .code-block .keyword { color: #ff7b72; }
+        .code-block .string { color: #a5d6ff; }
+        .code-block .function { color: #d2a8ff; }
+        .code-block .number { color: #79c0ff; }
 
         /* --- 页脚 --- */
         footer {
             text-align: center;
             margin-top: 80px;
-            font-size: 0.8em;
+            padding: 30px 20px;
+            border-top: 1px solid var(--border-color);
+            font-size: 0.85em;
             color: #484f58;
         }
 
-        a { color: var(--accent-color); text-decoration: none; }
-        a:hover { text-decoration: underline; }
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 15px;
+        }
+
+        .footer-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--terminal-green);
+        }
+
+        .footer-ascii {
+            font-size: 0.7em;
+            color: #30363d;
+            margin-top: 20px;
+            line-height: 1.2;
+        }
+
+        /* --- 响应式设计 --- */
+        @media (max-width: 600px) {
+            .container {
+                padding: 80px 15px 30px;
+            }
+            
+            h1 {
+                font-size: 1.5em;
+            }
+            
+            h1::before {
+                content: '$ ';
+            }
+            
+            .modules-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .status-line {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+
+        /* --- 滚动条样式 --- */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-color);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--terminal-green);
+        }
+
+        /* --- 链接默认样式 --- */
+        a { 
+            color: var(--accent-secondary); 
+            text-decoration: none; 
+            transition: color 0.3s ease;
+        }
+        
+        a:hover { 
+            color: var(--terminal-green);
+        }
+
+        /* --- 隐藏类 --- */
+        .hidden {
+            display: none !important;
+        }
     </style>
 </head>
 <body>
 
+    <!-- 导航栏 -->
+    <nav>
+        <div class="nav-container">
+            <a href="#" class="nav-logo">北渚Lab</a>
+            <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+            <div class="nav-links" id="navLinks">
+                <a href="#home" class="active">首页</a>
+                <a href="#study">学习笔记</a>
+                <a href="#tech">技术探索</a>
+                <a href="#life">生活记录</a>
+                <a href="#about">关于我</a>
+            </div>
+        </div>
+    </nav>
+
     <div class="container">
-        <header>
-            <h1>北渚 (Běi Zhǔ)</h1>
-            <p class="bio">
-                Integrated Circuit Design & Integrated Systems Student.<br>
-                Exploring the world of <strong>Silicon, Linux, and AI</strong>.
-            </p>
-            <div class="tags">
-                <span>#IC设计</span>
-                <span>#Linux</span>
-                <span>#DeepLearning</span>
-                <span>#43333333.xyz</span>
+        <!-- 终端风格头部 -->
+        <header id="home">
+            <div class="terminal-bar">
+                <span class="terminal-btn red"></span>
+                <span class="terminal-btn yellow"></span>
+                <span class="terminal-btn green"></span>
+                <span class="terminal-title">beizhu@lab:~$ cat about.txt</span>
+            </div>
+            <div class="header-content">
+                <h1>北渚 (Běi Zhǔ)</h1>
+                <p class="bio">
+                    🎓 <code>集成电路设计与集成系统</code> 大一学生<br>
+                    🔬 探索 <code>Silicon</code>, <code>Linux</code>, <code>AI</code> 的奇妙世界<br>
+                    💻 用代码记录成长，用文字沉淀思考
+                </p>
+                <div class="status-line">
+                    <div class="status-item">
+                        <span class="status-dot"></span>
+                        <span>在线学习中...</span>
+                    </div>
+                    <div class="status-item">
+                        <span>📍 中国</span>
+                    </div>
+                    <div class="status-item">
+                        <span>🌐 43333333.xyz</span>
+                    </div>
+                </div>
             </div>
         </header>
 
-        <article class="post">
-            <div class="post-date">2026-01-30</div>
-            <h2 class="post-title">Hello World: 我的博客上线了</h2>
-            <p class="post-content">
-                这是我的第一个个人网站，部署在 GitHub Pages，通过 Cloudflare 加速。<br>
-                作为一个集成电路专业的学生，我不仅要和晶体管打交道，也要掌握 Linux 和网络部署。<br>
-                接下来我会在这里记录我的学习笔记，比如 Ubuntu 配置、Verilog 代码或者蓝桥杯备赛心得。
-            </p>
-        </article>
+        <!-- 模块导航卡片 -->
+        <div class="modules-grid">
+            <div class="module-card" onclick="filterPosts('study')">
+                <span class="module-count">3 篇</span>
+                <div class="module-icon">📚</div>
+                <div class="module-title">学习笔记</div>
+                <div class="module-desc">IC设计、Verilog、数电模电、蓝桥杯备赛</div>
+            </div>
+            <div class="module-card" onclick="filterPosts('tech')">
+                <span class="module-count">2 篇</span>
+                <div class="module-icon">🔧</div>
+                <div class="module-title">技术探索</div>
+                <div class="module-desc">Linux系统、AI应用、编程技术分享</div>
+            </div>
+            <div class="module-card" onclick="filterPosts('life')">
+                <span class="module-count">2 篇</span>
+                <div class="module-icon">🌱</div>
+                <div class="module-title">生活记录</div>
+                <div class="module-desc">日常思考、校园生活、成长感悟</div>
+            </div>
+            <div class="module-card" onclick="scrollToAbout()">
+                <span class="module-count">Info</span>
+                <div class="module-icon">👤</div>
+                <div class="module-title">关于我</div>
+                <div class="module-desc">了解更多关于北渚的信息</div>
+            </div>
+        </div>
 
-        <article class="post">
-            <div class="post-date">2026-01-28</div>
-            <h2 class="post-title">关于 43333333.xyz 这个域名</h2>
-            <p class="post-content">
-                抢到了一个很有意思的纯数字域名。如果你是 IC 行业的，你会发现它像不像某种时钟频率？<br>
-                目前的计划是用它来做博客，以及跑一些私有的 AI 服务。
-            </p>
-        </article>
+        <!-- 分类筛选 -->
+        <div class="filter-section">
+            <span class="filter-label">$ filter --category</span>
+            <button class="filter-btn active" onclick="filterPosts('all', event)">全部</button>
+            <button class="filter-btn" onclick="filterPosts('study', event)">学习笔记</button>
+            <button class="filter-btn" onclick="filterPosts('tech', event)">技术探索</button>
+            <button class="filter-btn" onclick="filterPosts('life', event)">生活记录</button>
+        </div>
 
-        <article class="post">
-    <div class="post-date">你的日期</div>
-    <h2 class="post-title">你的标题</h2>
-    <p class="post-content">
-        你的内容写在这里...
-    </p>
-</article>
+        <!-- 文章列表 -->
+        <h2 class="section-title" id="posts">最新文章</h2>
+        <div class="posts-container" id="postsContainer">
+            
+            <!-- 学习笔记类文章 -->
+            <article class="post" data-category="study" id="study">
+                <div class="post-meta">
+                    <span class="post-date">2026-02-02</span>
+                    <span class="post-category study">学习笔记</span>
+                </div>
+                <h3 class="post-title">
+                    <a href="#">Verilog入门：从门电路到状态机</a>
+                </h3>
+                <p class="post-excerpt">
+                    作为IC设计专业的学生，Verilog是必须掌握的硬件描述语言。今天记录一下从最基础的与门、或门开始，
+                    逐步理解组合逻辑和时序逻辑的设计思路，最终实现一个简单的有限状态机（FSM）...
+                </p>
+                <div class="code-block">
+                    <span class="keyword">module</span> <span class="function">fsm_example</span>(<br>
+                    &nbsp;&nbsp;<span class="keyword">input</span> clk, rst_n,<br>
+                    &nbsp;&nbsp;<span class="keyword">output reg</span> [<span class="number">1</span>:<span class="number">0</span>] state<br>
+                    );<br>
+                    <span class="comment">// 状态机逻辑...</span>
+                </div>
+                <div class="post-tags">
+                    <span class="post-tag">Verilog</span>
+                    <span class="post-tag">IC设计</span>
+                    <span class="post-tag">状态机</span>
+                </div>
+            </article>
+
+            <article class="post" data-category="study">
+                <div class="post-meta">
+                    <span class="post-date">2026-02-01</span>
+                    <span class="post-category study">学习笔记</span>
+                </div>
+                <h3 class="post-title">
+                    <a href="#">数字电路基础：时序逻辑电路分析</a>
+                </h3>
+                <p class="post-excerpt">
+                    期末复习整理的数电笔记。时序逻辑电路与组合逻辑的本质区别在于：输出不仅取决于当前输入，
+                    还与电路的历史状态有关。理解触发器、计数器、寄存器的工作原理是IC设计的基础...
+                </p>
+                <div class="post-tags">
+                    <span class="post-tag">数字电路</span>
+                    <span class="post-tag">时序逻辑</span>
+                    <span class="post-tag">期末复习</span>
+                </div>
+            </article>
+
+            <article class="post" data-category="study">
+                <div class="post-meta">
+                    <span class="post-date">2026-01-25</span>
+                    <span class="post-category study">学习笔记</span>
+                </div>
+                <h3 class="post-title">
+                    <a href="#">蓝桥杯备赛：嵌入式开发入门</a>
+                </h3>
+                <p class="post-excerpt">
+                    准备参加蓝桥杯嵌入式赛道，开始学习STM32开发。从GPIO控制LED开始，逐步深入理解单片机的
+                    时钟系统、中断机制和外设配置。这篇文章记录了开发环境搭建和第一个点灯程序...
+                </p>
+                <div class="post-tags">
+                    <span class="post-tag">蓝桥杯</span>
+                    <span class="post-tag">STM32</span>
+                    <span class="post-tag">嵌入式</span>
+                </div>
+            </article>
+
+            <!-- 技术探索类文章 -->
+            <article class="post" data-category="tech" id="tech">
+                <div class="post-meta">
+                    <span class="post-date">2026-01-30</span>
+                    <span class="post-category tech">技术探索</span>
+                </div>
+                <h3 class="post-title">
+                    <a href="#">Ubuntu服务器配置指南：从零开始</a>
+                </h3>
+                <p class="post-excerpt">
+                    这是我的第一个个人网站，部署在 GitHub Pages，通过 Cloudflare 加速。
+                    作为一个集成电路专业的学生，我不仅要和晶体管打交道，也要掌握 Linux 和网络部署...
+                </p>
+                <div class="code-block">
+                    <span class="comment"># 更新系统</span><br>
+                    $ <span class="function">sudo</span> apt update && <span class="function">sudo</span> apt upgrade -y<br>
+                    <span class="comment"># 安装必要工具</span><br>
+                    $ <span class="function">sudo</span> apt install git curl vim -y
+                </div>
+                <div class="post-tags">
+                    <span class="post-tag">Linux</span>
+                    <span class="post-tag">Ubuntu</span>
+                    <span class="post-tag">服务器</span>
+                </div>
+            </article>
+
+            <article class="post" data-category="tech">
+                <div class="post-meta">
+                    <span class="post-date">2026-01-28</span>
+                    <span class="post-category tech">技术探索</span>
+                </div>
+                <h3 class="post-title">
+                    <a href="#">关于 43333333.xyz 这个域名</a>
+                </h3>
+                <p class="post-excerpt">
+                    抢到了一个很有意思的纯数字域名。如果你是 IC 行业的，你会发现它像不像某种时钟频率？
+                    43.33MHz，刚好是一个很常见的晶振频率。目前的计划是用它来做博客，以及跑一些私有的 AI 服务...
+                </p>
+                <div class="post-tags">
+                    <span class="post-tag">域名</span>
+                    <span class="post-tag">网站建设</span>
+                    <span class="post-tag">Cloudflare</span>
+                </div>
+            </article>
+
+            <!-- 生活记录类文章 -->
+            <article class="post" data-category="life" id="life">
+                <div class="post-meta">
+                    <span class="post-date">2026-01-31</span>
+                    <span class="post-category life">生活记录</span>
+                </div>
+                <h3 class="post-title">
+                    <a href="#">大一上学期总结：从迷茫到热爱</a>
+                </h3>
+                <p class="post-excerpt">
+                    转眼间大一上学期已经结束。从刚入学时对IC专业的懵懂，到现在渐渐找到了自己的方向。
+                    记录这半年的学习心得、遇到的困难，以及对未来的规划...
+                </p>
+                <div class="post-tags">
+                    <span class="post-tag">大学生活</span>
+                    <span class="post-tag">学期总结</span>
+                    <span class="post-tag">成长</span>
+                </div>
+            </article>
+
+            <article class="post" data-category="life">
+                <div class="post-meta">
+                    <span class="post-date">2026-01-20</span>
+                    <span class="post-category life">生活记录</span>
+                </div>
+                <h3 class="post-title">
+                    <a href="#">为什么选择集成电路专业？</a>
+                </h3>
+                <p class="post-excerpt">
+                    高考填志愿时，很多人问我为什么选择集成电路设计与集成系统这个专业。
+                    其实很简单：我想参与创造下一代芯片，用技术改变世界。这是一个充满挑战但又无比exciting的领域...
+                </p>
+                <div class="post-tags">
+                    <span class="post-tag">专业选择</span>
+                    <span class="post-tag">IC行业</span>
+                    <span class="post-tag">梦想</span>
+                </div>
+            </article>
+
+        </div>
+
+        <!-- 关于我 -->
+        <h2 class="section-title" id="about">关于我</h2>
+        <div class="post">
+            <div class="terminal-bar">
+                <span class="terminal-btn red"></span>
+                <span class="terminal-btn yellow"></span>
+                <span class="terminal-btn green"></span>
+                <span class="terminal-title">beizhu@lab:~$ cat README.md</span>
+            </div>
+            <div class="bio" style="margin-top: 20px;">
+                <p><strong>👋 Hi, I'm 北渚</strong></p>
+                <p>
+                    一名热爱技术的 <code>集成电路设计与集成系统</code> 专业大一学生。<br>
+                    对 <code>芯片设计</code>、<code>嵌入式开发</code>、<code>Linux</code> 和 <code>人工智能</code> 充满热情。
+                </p>
+                <p><strong>🔧 技术栈</strong></p>
+                <p>
+                    • 硬件描述语言：Verilog, VHDL（学习中）<br>
+                    • 编程语言：C/C++, Python<br>
+                    • 开发工具：Vivado, ModelSim, VS Code<br>
+                    • 系统：Linux (Ubuntu), Windows
+                </p>
+                <p><strong>🎯 目标</strong></p>
+                <p>
+                    • 2026年：参加蓝桥杯嵌入式赛道<br>
+                    • 学好专业课，打好IC设计基础<br>
+                    • 探索AI芯片和边缘计算领域
+                </p>
+                <p><strong>📫 联系方式</strong></p>
+                <p>
+                    • 网站：<a href="https://43333333.xyz">43333333.xyz</a><br>
+                    • GitHub：<a href="#">@beizhu</a>
+                </p>
+            </div>
+        </div>
+
+        <!-- 页脚 -->
         <footer>
-            <p>© 2026 记录 | Powered by GitHub & Cloudflare</p>
+            <div class="footer-links">
+                <a href="#home">首页</a>
+                <a href="#study">学习笔记</a>
+                <a href="#tech">技术探索</a>
+                <a href="#life">生活记录</a>
+                <a href="#about">关于我</a>
+            </div>
+            <p>© 2026 北渚的实验室 | Powered by GitHub Pages & Cloudflare</p>
+            <pre class="footer-ascii">
+   _____  _____  _____  _____  _____  _____  _____  _____  
+  |  _  ||__  / |__  / |__  / |__  / |__  / |__  / |__  / 
+  | |_| |  / /    / /    / /    / /    / /    / /    / /  
+  |_____|_/_/____/_/____/_/____/_/____/_/____/_/____/_/   
+       43333333.xyz - 用代码记录成长
+            </pre>
         </footer>
     </div>
+
+    <script>
+        // 移动端菜单切换
+        function toggleMenu() {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.classList.toggle('show');
+        }
+
+        // 文章筛选功能
+        function filterPosts(category, event) {
+            const posts = document.querySelectorAll('.post[data-category]');
+            const buttons = document.querySelectorAll('.filter-btn');
+            
+            // 更新按钮状态
+            buttons.forEach(btn => btn.classList.remove('active'));
+            // 如果是从按钮点击触发，高亮对应按钮；否则根据category找到对应按钮
+            if (event && event.target && event.target.classList.contains('filter-btn')) {
+                event.target.classList.add('active');
+            } else {
+                // 从模块卡片点击时，根据category匹配对应的筛选按钮
+                buttons.forEach(btn => {
+                    const btnText = btn.textContent.trim();
+                    if ((category === 'all' && btnText === '全部') ||
+                        (category === 'study' && btnText === '学习笔记') ||
+                        (category === 'tech' && btnText === '技术探索') ||
+                        (category === 'life' && btnText === '生活记录')) {
+                        btn.classList.add('active');
+                    }
+                });
+            }
+            
+            // 筛选文章
+            posts.forEach(post => {
+                if (category === 'all' || post.dataset.category === category) {
+                    post.classList.remove('hidden');
+                } else {
+                    post.classList.add('hidden');
+                }
+            });
+
+            // 滚动到文章区域
+            document.getElementById('posts').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // 滚动到关于我
+        function scrollToAbout() {
+            document.getElementById('about').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // 导航链接高亮
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', function() {
+                document.querySelectorAll('.nav-links a').forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+                // 移动端点击后关闭菜单
+                document.getElementById('navLinks').classList.remove('show');
+            });
+        });
+
+        // 滚动时更新导航高亮
+        window.addEventListener('scroll', function() {
+            const sections = ['home', 'study', 'tech', 'life', 'about'];
+            const navLinks = document.querySelectorAll('.nav-links a');
+            
+            let current = '';
+            sections.forEach(id => {
+                const section = document.getElementById(id);
+                if (section) {
+                    const rect = section.getBoundingClientRect();
+                    if (rect.top <= 100) {
+                        current = id;
+                    }
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
 
 </body>
 </html>
