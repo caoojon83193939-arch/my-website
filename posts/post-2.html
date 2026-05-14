@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="电赛备战日记 · 模拟方向选题与时间规划">
+    <title>电赛备战日记 · 决定主攻模拟方向 · caoojon</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%9C%A8%3C/text%3E%3C/svg%3E">
+    <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+    <div class="container">
+        <nav class="nav">
+            <a href="../index.html" class="nav-brand">✨ caoojon</a>
+            <ul class="nav-links">
+                <li><a href="../index.html#posts">日记</a></li>
+                <li><a href="../index.html#about">关于</a></li>
+            </ul>
+        </nav>
+
+        <div style="padding: 1rem 0;">
+            <a href="../index.html" class="back-link">← 回首页</a>
+        </div>
+    </div>
+
+    <article class="article-wrap">
+        <div class="article-card">
+            <span class="article-tag tag-study">备赛</span>
+            <h1>电赛备战日记 · 决定主攻模拟方向</h1>
+            <div class="article-meta">
+                2026-05-07 · 阅读约 4 分钟
+            </div>
+
+            <div class="article-body">
+                <p>
+                    距 7 月电赛<strong>大概还有两个月</strong>。
+                    上周和队友吵了一下午，最后决定主攻模拟方向。
+                    这篇日记记录一下为什么这样选，以及给自己定的计划。
+                </p>
+
+                <h2>为什么是模拟方向</h2>
+                <p>
+                    其实一开始想做电源类。模拟、电源、仪表、控制几个题目里，
+                    我个人对放大电路和滤波器更感兴趣，
+                    队里另一个学硬件的也是这条线的。
+                </p>
+                <p>
+                    数字和单片机方向看起来"快出活"，
+                    但近几年题目越来越偏综合 —— <strong>纯数字题已经很少了</strong>，
+                    多半要求"既会模拟又会数字"。
+                    与其铺得太散，不如把模拟啃透。
+                </p>
+
+                <h2>剩下的两个月怎么用</h2>
+                <p>给自己排了一下时间盘子：</p>
+                <ul>
+                    <li><strong>第 1-2 周</strong>：基础回炉
+                        <ul>
+                            <li>模电：BJT/MOS 放大、运放、负反馈</li>
+                            <li>电路：戴维南、节点法这种最基本的别再翻车</li>
+                        </ul>
+                    </li>
+                    <li><strong>第 3-4 周</strong>：典型电路实战
+                        <ul>
+                            <li>仪表放大器、有源滤波器（Sallen-Key、MFB）</li>
+                            <li>LDO、Buck 简单设计</li>
+                            <li>每个电路必须用 LTSpice 仿真一遍</li>
+                        </ul>
+                    </li>
+                    <li><strong>第 5-6 周</strong>：刷历年题
+                        <ul>
+                            <li>每天一题往年真题，按 4 小时计时</li>
+                            <li>仿真→焊板→测试 一条龙</li>
+                        </ul>
+                    </li>
+                    <li><strong>第 7-8 周</strong>：调试 + 答辩准备</li>
+                </ul>
+
+                <h2>关于 STM32</h2>
+                <p>
+                    队友会单片机，我就<strong>不深挖了</strong>。
+                    HAL 库够用就行，重点会用 ADC、DAC、PWM 这几个，
+                    剩下的让队友兜底。
+                </p>
+                <p>
+                    把时间堆在自己强的地方，<strong>团队搭子不是干啥都全栈</strong>，
+                    分工才是关键。
+                </p>
+
+                <h2>给自己的提醒</h2>
+                <blockquote>
+                    1. 不要熬大夜，第二天废一整天<br>
+                    2. 焊板子一定要分模块测试，<strong>不要一次性上电整板</strong><br>
+                    3. 仿真和实测有差异是正常的，重要的是<strong>知道差在哪</strong><br>
+                    4. 每天写 10 分钟日记，记录今天卡哪了
+                </blockquote>
+
+                <p>立 flag 时间。<strong>七月见。</strong></p>
+            </div>
+        </div>
+    </article>
+
+    <div class="container">
+        <footer class="footer">
+            <p>© 2026 caoojon</p>
+        </footer>
+    </div>
+</body>
+</html>
