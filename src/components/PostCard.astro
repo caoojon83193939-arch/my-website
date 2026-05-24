@@ -6,15 +6,12 @@ interface Props {
   tag: string;
   excerpt: string;
   readMin: number;
-  index?: number;
 }
-const { href, title, date, tag, excerpt, readMin, index } = Astro.props;
+const { href, title, date, tag, excerpt, readMin } = Astro.props;
 const dateStr = date.toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' });
-const numStr = index ? String(index).padStart(2, '0') : '';
 ---
 
 <a href={href} class="post-item" data-post-tag={tag}>
-  {numStr && <span class="post-num">{numStr}</span>}
   <div class="post-body">
     <div class="post-item-top">
       <span class="tag-badge" data-tag={tag}>{tag}</span>

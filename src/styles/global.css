@@ -485,21 +485,11 @@ html[data-theme='dark'] .tag-filter button.active {
 }
 
 .post-item {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 0.3rem;
+  display: block;
   padding: 1.4rem 0;
   border-bottom: 1px solid var(--line);
   transition: opacity var(--transition);
   color: var(--ink);
-}
-
-@media (min-width: 720px) {
-  .post-item {
-    grid-template-columns: 80px 1fr;
-    gap: 2rem;
-    align-items: baseline;
-  }
 }
 
 .post-item:first-of-type {
@@ -516,21 +506,6 @@ html[data-theme='dark'] .tag-filter button.active {
 
 .post-item:hover {
   color: var(--ink);
-}
-
-.post-num {
-  font-family: var(--font-serif);
-  font-size: 1.4rem;
-  font-style: italic;
-  font-weight: 600;
-  color: var(--muted-soft);
-  letter-spacing: -0.02em;
-  font-variant-numeric: tabular-nums;
-  transition: color var(--transition);
-}
-
-.post-item:hover .post-num {
-  color: var(--accent);
 }
 
 .post-body {

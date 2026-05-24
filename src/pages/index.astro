@@ -19,6 +19,14 @@ const rest = all.filter((p) => p.id !== featured.id);
 
 const tags = Array.from(new Set(all.map((p) => p.data.tag)));
 
+const latest = all[0];
+const latestDateStr = latest.data.date.toLocaleDateString('zh-CN', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+const featuredYear = featured.data.date.getFullYear();
 const featuredMonth = featured.data.date.getMonth() + 1;
 const featuredDay = featured.data.date.getDate();
 const featuredDateStr = featured.data.date.toLocaleDateString('zh-CN', {
@@ -31,7 +39,7 @@ const featuredDateStr = featured.data.date.toLocaleDateString('zh-CN', {
 <BaseLayout title="北渚的博客" activeNav="posts">
   <header class="hero">
     <div class="container-home">
-      <div class="hero-eyebrow">第 1 期 &middot; 2026 春夏</div>
+      <div class="hero-eyebrow">最近一次更新 · {latestDateStr}</div>
       <h1 class="hero-title">北渚的 vlog</h1>
       <div class="hero-meta">
         <span>共 {all.length} 篇</span>
@@ -44,11 +52,11 @@ const featuredDateStr = featured.data.date.toLocaleDateString('zh-CN', {
   </header>
 
   <section class="container-home featured">
-    <div class="section-label">头版头条</div>
+    <div class="section-label">最新一篇</div>
     <a class="headline" href={`/posts/${featured.id}/`}>
       <div class="headline-marker">
-        <span class="big-num">01</span>
-        <span class="big-date">{featuredMonth} &middot; {String(featuredDay).padStart(2, '0')}</span>
+        <span class="big-num">{featuredDay}</span>
+        <span class="big-date">{featuredYear} 年 {featuredMonth} 月</span>
       </div>
       <div class="headline-body">
         <span class="tag-badge" data-tag={featured.data.tag}>{featured.data.tag}</span>
@@ -70,7 +78,7 @@ const featuredDateStr = featured.data.date.toLocaleDateString('zh-CN', {
     <div class="section-label">全部文章</div>
     <TagFilter tags={tags} />
     <div>
-      {rest.map((post, idx) => (
+      {rest.map((post) => (
         <PostCard
           href={`/posts/${post.id}/`}
           title={post.data.title}
@@ -78,7 +86,6 @@ const featuredDateStr = featured.data.date.toLocaleDateString('zh-CN', {
           tag={post.data.tag}
           excerpt={post.data.excerpt}
           readMin={readMinFor(post)}
-          index={idx + 2}
         />
       ))}
     </div>
