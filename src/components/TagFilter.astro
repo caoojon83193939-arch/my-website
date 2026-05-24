@@ -1,0 +1,28 @@
+---
+const { tags = [] } = Astro.props;
+---
+
+<div class="tag-filter" id="tag-filter">
+  <button data-tag="all" class="active" type="button">全部</button>
+  {tags.map((t: string) => <button data-tag={t} type="button">{t}</button>)}
+</div>
+
+<script is:inline>
+  (function () {
+    const filter = document.getElementById('tag-filter');
+    if (!filter) return;
+    const buttons = filter.querySelectorAll('button');
+    const items = document.querySelectorAll('[data-post-tag]');
+    buttons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const tag = btn.getAttribute('data-tag');
+        buttons.forEach((b) => b.classList.toggle('active', b === btn));
+        items.forEach((el) => {
+          const postTag = el.getAttribute('data-post-tag');
+          const show = tag === 'all' || postTag === tag;
+          el.classList.toggle('hidden', !show);
+        });
+      });
+    });
+  })();
+</script>

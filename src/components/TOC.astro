@@ -1,0 +1,45 @@
+---
+const { headings = [] } = Astro.props;
+const list = headings.filter((h: any) => h.depth === 2 || h.depth === 3);
+---
+
+{list.length > 0 && (
+  <aside class="toc" aria-label="目录">
+    <div class="toc-title">本文目录</div>
+    <ul>
+      {list.map((h: any) => (
+        <li class={h.depth === 3 ? 'toc-h3' : 'toc-h2'}>
+          <a href={`#${h.slug}`} data-toc-target={h.slug}>{h.text}</a>
+        </li>
+      ))}
+    </ul>
+  </aside>
+)}
+
+<script is:inline>
+  (function () {
+    const links = document.querySelectorAll('[data-toc-target]');
+    if (!links.length) return;
+    const map = new Map();
+    links.forEach((a) => {
+      const id = a.getAttribute('data-toc-target');
+      const target = id ? document.getElementById(id) : null;
+      if (target) map.set(target, a);
+    });
+    if (!map.size) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const link = map.get(entry.target);
+          if (!link) return;
+          if (entry.isIntersecting) {
+            links.forEach((l) => l.classList.remove('active'));
+            link.classList.add('active');
+          }
+        });
+      },
+      { rootMargin: '0px 0px -70% 0px', threshold: 0 }
+    );
+    map.forEach((_, h) => observer.observe(h));
+  })();
+</script>

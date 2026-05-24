@@ -1,0 +1,86 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PostCard from '../components/PostCard.astro';
+import TagFilter from '../components/TagFilter.astro';
+import { getCollection } from 'astro:content';
+import readingTime from 'reading-time';
+
+const all = (await getCollection('posts', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime()
+);
+
+const readMinFor = (entry: any) => {
+  const minutes = readingTime(entry.body || '').minutes;
+  return Math.max(1, Math.round(minutes));
+};
+
+const featured = all.find((p) => p.data.featured) || all[0];
+const rest = all.filter((p) => p.id !== featured.id);
+
+const tags = Array.from(new Set(all.map((p) => p.data.tag)));
+
+const featuredMonth = featured.data.date.getMonth() + 1;
+const featuredDay = featured.data.date.getDate();
+const featuredDateStr = featured.data.date.toLocaleDateString('zh-CN', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<BaseLayout title="北渚的博客" activeNav="posts">
+  <header class="hero">
+    <div class="container-home">
+      <div class="hero-eyebrow">第 1 期 &middot; 2026 春夏</div>
+      <h1 class="hero-title">北渚的 vlog</h1>
+      <div class="hero-meta">
+        <span>共 {all.length} 篇</span>
+        <span>&middot;</span>
+        <a href="/rss.xml">订阅</a>
+        <span>&middot;</span>
+        <a href="https://github.com/caoojon83193939-arch" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="container-home featured">
+    <div class="section-label">头版头条</div>
+    <a class="headline" href={`/posts/${featured.id}/`}>
+      <div class="headline-marker">
+        <span class="big-num">01</span>
+        <span class="big-date">{featuredMonth} &middot; {String(featuredDay).padStart(2, '0')}</span>
+      </div>
+      <div class="headline-body">
+        <span class="tag-badge" data-tag={featured.data.tag}>{featured.data.tag}</span>
+        <h2 class="headline-title">{featured.data.title}</h2>
+        <p class="headline-excerpt">{featured.data.excerpt}</p>
+        <div class="headline-meta">
+          <span>北渚</span>
+          <span class="dot"></span>
+          <span>{featuredDateStr}</span>
+          <span class="dot"></span>
+          <span>约 {readMinFor(featured)} 分钟</span>
+          <span class="arrow">&rarr;</span>
+        </div>
+      </div>
+    </a>
+  </section>
+
+  <section class="container-home posts">
+    <div class="section-label">全部文章</div>
+    <TagFilter tags={tags} />
+    <div>
+      {rest.map((post, idx) => (
+        <PostCard
+          href={`/posts/${post.id}/`}
+          title={post.data.title}
+          date={post.data.date}
+          tag={post.data.tag}
+          excerpt={post.data.excerpt}
+          readMin={readMinFor(post)}
+          index={idx + 2}
+        />
+      ))}
+    </div>
+  </section>
+</BaseLayout>

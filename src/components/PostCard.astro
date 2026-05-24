@@ -1,0 +1,29 @@
+---
+interface Props {
+  href: string;
+  title: string;
+  date: Date;
+  tag: string;
+  excerpt: string;
+  readMin: number;
+  index?: number;
+}
+const { href, title, date, tag, excerpt, readMin, index } = Astro.props;
+const dateStr = date.toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' });
+const numStr = index ? String(index).padStart(2, '0') : '';
+---
+
+<a href={href} class="post-item" data-post-tag={tag}>
+  {numStr && <span class="post-num">{numStr}</span>}
+  <div class="post-body">
+    <div class="post-item-top">
+      <span class="tag-badge" data-tag={tag}>{tag}</span>
+      <span class="dot"></span>
+      <span>{dateStr}</span>
+      <span class="dot"></span>
+      <span>约 {readMin} 分钟</span>
+    </div>
+    <h3 class="post-item-title">{title}</h3>
+    <p class="post-item-excerpt">{excerpt}</p>
+  </div>
+</a>

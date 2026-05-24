@@ -1,0 +1,47 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import ProgressBar from '../components/ProgressBar.astro';
+import TOC from '../components/TOC.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  date: Date;
+  tag: string;
+  readMin: number;
+  headings: any[];
+}
+
+const { title, description, date, tag, readMin, headings } = Astro.props;
+const dateStr = date.toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' });
+---
+
+<BaseLayout title={title} description={description}>
+  <ProgressBar />
+  <main class="container-wide article">
+    <div class="article-layout">
+      <article>
+        <header class="article-header">
+          <span class="tag-badge" data-tag={tag}>{tag}</span>
+          <h1>{title}</h1>
+          <div class="article-meta">
+            <span>{dateStr}</span>
+            <span class="dot"></span>
+            <span>约 {readMin} 分钟阅读</span>
+            <span class="dot"></span>
+            <span>北渚</span>
+          </div>
+        </header>
+        <div class="article-body">
+          <slot />
+        </div>
+        <div class="article-end">
+          <p class="signature">— 北渚</p>
+          <p>谢谢你读到这里。</p>
+        </div>
+        <a href="/" class="back-link">&larr; 回首页</a>
+      </article>
+      <TOC headings={headings} />
+    </div>
+  </main>
+</BaseLayout>

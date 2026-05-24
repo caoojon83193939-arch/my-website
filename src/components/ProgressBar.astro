@@ -1,0 +1,20 @@
+---
+---
+
+<div class="progress-bar" id="progress-bar"></div>
+
+<script is:inline>
+  (function () {
+    const bar = document.getElementById('progress-bar');
+    if (!bar) return;
+    const onScroll = () => {
+      const doc = document.documentElement;
+      const scrolled = doc.scrollTop;
+      const height = doc.scrollHeight - doc.clientHeight;
+      const pct = height > 0 ? (scrolled / height) * 100 : 0;
+      bar.style.width = pct + '%';
+    };
+    document.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  })();
+</script>

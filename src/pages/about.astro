@@ -1,0 +1,53 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="关于" activeNav="about" description="关于北渚与这个博客">
+  <main class="container about">
+    <div class="about-eyebrow">关于</div>
+    <h1>关于北渚</h1>
+    <div class="about-body">
+      <p>
+        我是北渚，正在读集成电路设计与集成系统专业。喜欢折腾硬件，写代码，
+        看电路图比看小说还入迷。
+      </p>
+      <p>
+        这个博客是我自己的小角落，主要记录三件事：
+        <strong>啃专业课时的笔记</strong>、
+        <strong>电赛备战中的思考</strong>、
+        以及<strong>实验室出来路上看到的月亮</strong>。
+      </p>
+
+      <h2>正在做什么</h2>
+      <p>
+        2026 年的夏天我要打全国大学生电子设计竞赛，
+        现阶段的重心是把模拟电子技术基础打牢。
+        STM32 那边够用就行，重点在运放、滤波器、电源这些必考点上。
+      </p>
+
+      <h2>常用工具与语言</h2>
+      <div class="about-stack">
+        <span>Verilog</span>
+        <span>Python</span>
+        <span>C</span>
+        <span>LTSpice</span>
+        <span>KiCad</span>
+        <span>Vivado</span>
+        <span>Icarus Verilog</span>
+        <span>VSCode</span>
+      </div>
+
+      <h2>聊点别的</h2>
+      <p>
+        如果你也在啃模电、做 FPGA、备战电赛，或者纯粹想唠唠生活，
+        欢迎在 GitHub 上来找我。
+      </p>
+
+      <div class="about-links">
+        <a href="https://github.com/caoojon83193939-arch" target="_blank" rel="noopener">GitHub &rarr;</a>
+        <a href="/rss.xml">订阅 &rarr;</a>
+        <a href="/">回首页 &rarr;</a>
+      </div>
+    </div>
+  </main>
+</BaseLayout>
