@@ -1375,3 +1375,81 @@ html[data-theme='dark'] .tag-filter button.active {
     padding: 0.65rem 1rem;
   }
 }
+
+/* Hard containment for mobile article pages. Keep this as the last mobile block. */
+@media (max-width: 640px) {
+  .container-wide.article {
+    width: 100%;
+    max-width: 100%;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    overflow-x: hidden;
+  }
+
+  .article-layout {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .article-layout > article {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    overflow-x: hidden;
+  }
+
+  .article-header,
+  .article-body,
+  .article-end,
+  .post-pager,
+  .back-link {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .article-body {
+    font-size: 0.98rem;
+    line-height: 1.76;
+  }
+
+  .article-body > * {
+    max-width: 100%;
+  }
+
+  .article-body p,
+  .article-body h2,
+  .article-body h3,
+  .article-body li,
+  .article-body blockquote {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  .article-body p {
+    text-align: left;
+  }
+
+  .article-body h2 {
+    font-size: 1.42rem;
+    margin-top: 2.1em;
+  }
+
+  .article-body h3 {
+    font-size: 1.15rem;
+  }
+
+  .article-body blockquote,
+  .article-body ul,
+  .article-body ol {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .article-body pre {
+    max-width: 100%;
+    overflow-x: auto;
+  }
+}
