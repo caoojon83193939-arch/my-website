@@ -7,6 +7,7 @@ import { stdin as input, stdout as output } from 'node:process';
 
 const TAGS = ['技术', '备赛', '生活', '随想'];
 const postsDir = path.join(process.cwd(), 'src', 'content', 'posts');
+const imagesDir = path.join(process.cwd(), 'public', 'images', 'posts');
 
 const today = () => {
   const date = new Date();
@@ -96,6 +97,7 @@ try {
   ].filter(Boolean).join('\n');
 
   const body = `${frontmatter}\n\n这里开始写正文。\n\n## 小标题\n\n继续写内容。\n`;
+  await mkdir(postImagesDir, { recursive: true });
   await writeFile(filePath, body, { encoding: 'utf8', flag: 'wx' });
 
   console.log(`\n已创建：${path.relative(process.cwd(), filePath)}`);
@@ -103,3 +105,4 @@ try {
 } finally {
   rl.close();
 }
+

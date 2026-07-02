@@ -67,7 +67,18 @@ npm run preview
 npm run new-post
 ```
 
-脚本会依次询问标题、日期、分类、系列、主题、摘要和文件名，然后在 `src/content/posts/` 生成 `.md` 文件。生成后默认是草稿：
+脚本会依次询问标题、日期、分类、系列、主题、摘要和文件名，然后生成：
+
+- `src/content/posts/文章slug.md`
+- `public/images/posts/文章slug/`
+
+接着用 Typora 打开生成的 `.md` 文件写正文。图片放进对应图片目录，正文里这样引用：
+
+```markdown
+![图片说明](/images/posts/文章slug/your-image.png)
+```
+
+生成后默认是草稿：
 
 ```markdown
 draft: true
@@ -97,14 +108,19 @@ draft: true
 发布前检查：
 
 ```bash
-npm run dev
+npm run check-posts
 npm run build
+```
+
+检查通过后，用 GitHub Desktop 填提交信息，点击 Commit，再点击 Push。也可以用命令行：
+
+```bash
 git add .
 git commit -m "Add blog post"
 git push
 ```
 
-常见失败原因：`tag` 写成了未支持的分类、`date` 不是 `YYYY-MM-DD`、`topics` 没用 `[主题一, 主题二]` 格式、漏写 `excerpt`、发布时忘了把 `draft` 改成 `false`。
+常见失败原因：`tag` 写成了未支持的分类、`date` 不是 `YYYY-MM-DD`、`topics` 没用 `[主题一, 主题二]` 格式、漏写 `excerpt`、图片用了本机绝对路径、引用了不存在的图片、发布时忘了把 `draft` 改成 `false`。
 ## 部署
 
 推送到 `main` 分支会触发 `.github/workflows/deploy.yml`，Actions 自动构建并发布到 GitHub Pages。CNAME 在 `public/CNAME`，自动绑定 `www.43333333.xyz`。
@@ -112,6 +128,7 @@ git push
 ## License
 
 文字内容版权归 caoojon 所有；代码部分 MIT。
+
 
 
 

@@ -9,7 +9,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "new-post": "node scripts/new-post.mjs"
+    "new-post": "node scripts/new-post.mjs",
+    "check-posts": "node scripts/check-posts.mjs"
   },
   "dependencies": {
     "astro": "^5.14.0",
