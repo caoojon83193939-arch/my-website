@@ -3,7 +3,8 @@ title: 期末周的第一天
 date: 2026-07-02
 tag: 生活
 excerpt: 终于的开始，终于的结束，结束的开始，开始的开始。
-featured: true
+featured: false
+draft：ture
 ---
 
 大一下学期的正宗期末周。**六天八考**，从马克思主义原理开始。
