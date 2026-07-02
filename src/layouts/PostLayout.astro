@@ -3,6 +3,12 @@ import BaseLayout from './BaseLayout.astro';
 import ProgressBar from '../components/ProgressBar.astro';
 import TOC from '../components/TOC.astro';
 
+interface AdjacentPost {
+  title: string;
+  href: string;
+  label: string;
+}
+
 interface Props {
   title: string;
   description: string;
@@ -10,19 +16,45 @@ interface Props {
   tag: string;
   readMin: number;
   headings: any[];
+  series?: string;
+  topics?: string[];
+  previousPost?: AdjacentPost;
+  nextPost?: AdjacentPost;
 }
 
-const { title, description, date, tag, readMin, headings } = Astro.props;
+const {
+  title,
+  description,
+  date,
+  tag,
+  readMin,
+  headings,
+  series,
+  topics = [],
+  previousPost,
+  nextPost,
+} = Astro.props;
 const dateStr = date.toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' });
 ---
 
-<BaseLayout title={title} description={description}>
+<BaseLayout
+  title={title}
+  description={description}
+  ogType="article"
+  publishedTime={date}
+  author="北渚"
+  section={tag}
+  tags={[tag, series, ...topics].filter(Boolean)}
+>
   <ProgressBar />
   <main class="container-wide article">
     <div class="article-layout">
       <article>
         <header class="article-header">
-          <span class="tag-badge" data-tag={tag}>{tag}</span>
+          <div class="article-kicker">
+            <span class="tag-badge" data-tag={tag}>{tag}</span>
+            {series && <span class="series-chip">{series}</span>}
+          </div>
           <h1>{title}</h1>
           <div class="article-meta">
             <span>{dateStr}</span>
@@ -31,6 +63,11 @@ const dateStr = date.toLocaleDateString('zh-CN', { year: 'numeric', month: 'long
             <span class="dot"></span>
             <span>北渚</span>
           </div>
+          {topics.length > 0 && (
+            <div class="topic-list" aria-label="文章主题">
+              {topics.map((topic) => <span>{topic}</span>)}
+            </div>
+          )}
         </header>
         <div class="article-body">
           <slot />
@@ -39,9 +76,26 @@ const dateStr = date.toLocaleDateString('zh-CN', { year: 'numeric', month: 'long
           <p class="signature">— 北渚</p>
           <p>谢谢你读到这里。</p>
         </div>
+        {(previousPost || nextPost) && (
+          <nav class="post-pager" aria-label="文章导航">
+            {previousPost ? (
+              <a href={previousPost.href} class="pager-link pager-prev">
+                <span>{previousPost.label}</span>
+                <strong>{previousPost.title}</strong>
+              </a>
+            ) : <span></span>}
+            {nextPost ? (
+              <a href={nextPost.href} class="pager-link pager-next">
+                <span>{nextPost.label}</span>
+                <strong>{nextPost.title}</strong>
+              </a>
+            ) : <span></span>}
+          </nav>
+        )}
         <a href="/" class="back-link">&larr; 回首页</a>
       </article>
       <TOC headings={headings} />
     </div>
   </main>
 </BaseLayout>
+

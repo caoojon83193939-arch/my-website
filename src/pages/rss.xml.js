@@ -14,8 +14,9 @@ export async function GET(context) {
       pubDate: post.data.date,
       description: post.data.excerpt,
       link: `/posts/${post.id}/`,
-      categories: [post.data.tag],
+      categories: [post.data.tag, post.data.series, ...(post.data.topics || [])].filter(Boolean),
     })),
     customData: '<language>zh-CN</language>',
   });
 }
+

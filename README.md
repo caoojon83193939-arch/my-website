@@ -61,24 +61,50 @@ npm run preview
 
 ## 写新文章
 
-1. 在 `src/content/posts/` 新建一个 `.md` 文件
-2. 顶部加 frontmatter：
+推荐用脚本创建文章：
 
-   ```markdown
-   ---
-   title: 你的标题
-   date: 2026-06-01
-   tag: 技术          # 技术 / 备赛 / 生活 / 随想
-   excerpt: 一两句话的摘要，会显示在首页和 RSS 里。
-   featured: false   # 设为 true 可顶到首页 Featured
-   draft: false      # 设为 true 不会发布
-   ---
+```bash
+npm run new-post
+```
 
-   正文用 Markdown 写就行……
-   ```
+脚本会依次询问标题、日期、分类、系列、主题、摘要和文件名，然后在 `src/content/posts/` 生成 `.md` 文件。生成后默认是草稿：
 
-3. 保存后 `npm run dev` 实时预览；推到 `main` 自动部署。
+```markdown
+draft: true
+```
 
+写完正文、本地预览没问题后，把它改成：
+
+```markdown
+draft: false
+```
+
+也可以手动复制 `src/content/posts/_template.md`，在同一目录下改成新的英文文件名，例如 `final-week-day-2.md`。frontmatter 示例：
+
+```markdown
+---
+title: 你的标题
+date: 2026-07-03
+tag: 生活          # 只能写：技术 / 备赛 / 生活 / 随想
+series: 期末周      # 可选，连续日记可以写同一个系列名
+topics: [期末, 复盘] # 可选，用英文逗号分隔
+excerpt: 一两句话的摘要，会显示在首页和 RSS 里。
+featured: false
+draft: true
+---
+```
+
+发布前检查：
+
+```bash
+npm run dev
+npm run build
+git add .
+git commit -m "Add blog post"
+git push
+```
+
+常见失败原因：`tag` 写成了未支持的分类、`date` 不是 `YYYY-MM-DD`、`topics` 没用 `[主题一, 主题二]` 格式、漏写 `excerpt`、发布时忘了把 `draft` 改成 `false`。
 ## 部署
 
 推送到 `main` 分支会触发 `.github/workflows/deploy.yml`，Actions 自动构建并发布到 GitHub Pages。CNAME 在 `public/CNAME`，自动绑定 `www.43333333.xyz`。
@@ -86,3 +112,6 @@ npm run preview
 ## License
 
 文字内容版权归 caoojon 所有；代码部分 MIT。
+
+
+

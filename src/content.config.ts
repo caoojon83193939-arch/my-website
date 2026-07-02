@@ -9,6 +9,8 @@ const posts = defineCollection({
     tag: z.enum(['技术', '备赛', '生活', '随想']),
     excerpt: z.string(),
     cover: z.string().optional(),
+    series: z.string().optional(),
+    topics: z.array(z.string()).default([]),
     featured: z.boolean().default(false),
     draft: z.boolean().default(false),
   }),

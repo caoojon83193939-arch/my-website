@@ -1,0 +1,49 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('posts', ({ data }) => !data.draft)).sort((a, b) => {
+  const byDate = b.data.date.getTime() - a.data.date.getTime();
+  return byDate || a.id.localeCompare(b.id);
+});
+
+const groups = posts.reduce((acc: any[], post) => {
+  const year = post.data.date.getFullYear();
+  const month = post.data.date.getMonth() + 1;
+  const key = `${year}-${String(month).padStart(2, '0')}`;
+  let group = acc.find((item) => item.key === key);
+  if (!group) {
+    group = { key, year, month, posts: [] };
+    acc.push(group);
+  }
+  group.posts.push(post);
+  return acc;
+}, []);
+---
+
+<BaseLayout title="归档" activeNav="archive" description="北渚博客的全部文章归档">
+  <main class="container archive-page">
+    <div class="about-eyebrow">Archive</div>
+    <h1>文章归档</h1>
+    <p class="archive-intro">按时间整理所有文章，方便回看同一阶段的日记、复盘和学习记录。</p>
+
+    <div class="archive-list">
+      {groups.map((group) => (
+        <section class="archive-group">
+          <h2>{group.year} 年 {group.month} 月</h2>
+          <div class="archive-items">
+            {group.posts.map((post: any) => (
+              <a href={`/posts/${post.id}/`} class="archive-item">
+                <time datetime={post.data.date.toISOString()}>
+                  {post.data.date.toLocaleDateString('zh-CN', { month: '2-digit', day: '2-digit' })}
+                </time>
+                <span>{post.data.title}</span>
+                <small>{post.data.series || post.data.tag}</small>
+              </a>
+            ))}
+          </div>
+        </section>
+      ))}
+    </div>
+  </main>
+</BaseLayout>

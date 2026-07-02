@@ -10,6 +10,7 @@ const { activeNav = '' } = Astro.props;
     </a>
     <div class="nav-links">
       <a href="/" class={activeNav === 'posts' ? 'active' : ''}>日记</a>
+      <a href="/archive/" class={activeNav === 'archive' ? 'active' : ''}>归档</a>
       <a href="/about" class={activeNav === 'about' ? 'active' : ''}>关于</a>
       <a href="/rss.xml" aria-label="订阅">订阅</a>
       <button class="theme-toggle" id="theme-toggle" aria-label="切换主题">

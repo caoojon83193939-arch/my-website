@@ -294,6 +294,8 @@ html[data-theme='dark'] .theme-toggle .moon {
   color: var(--muted);
   display: inline-flex;
   align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 0.8rem;
 }
 
@@ -426,8 +428,8 @@ html[data-theme='dark'] .theme-toggle .moon {
   color: var(--muted);
   display: inline-flex;
   align-items: center;
-  gap: 0.6rem;
   flex-wrap: wrap;
+  gap: 0.6rem;
 }
 
 .headline-meta .dot {
@@ -443,6 +445,46 @@ html[data-theme='dark'] .theme-toggle .moon {
   margin-left: 0.4rem;
   transition: transform var(--transition);
   display: inline-block;
+}
+
+/* ===== Recent posts ===== */
+.recent-posts {
+  padding: 2rem 0 0.5rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.recent-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.recent-card {
+  min-width: 0;
+  padding: 1rem 0;
+  border-top: 1px solid var(--line);
+  color: var(--ink);
+}
+
+.recent-card:hover strong {
+  color: var(--accent);
+}
+
+.recent-card span,
+.recent-card small {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 0.76rem;
+  color: var(--muted);
+}
+
+.recent-card strong {
+  display: block;
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  line-height: 1.35;
+  margin: 0.35rem 0;
+  transition: color var(--transition);
 }
 
 /* ===== Tag filter ===== */
@@ -515,6 +557,7 @@ html[data-theme='dark'] .tag-filter button.active {
 .post-item-top {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 0.7rem;
   font-family: var(--font-sans);
   font-size: 0.8rem;
@@ -581,6 +624,42 @@ html[data-theme='dark'] .tag-filter button.active {
   color: var(--tag-think-fg);
 }
 
+.series-chip {
+  display: inline-block;
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  padding: 0.18rem 0.55rem;
+  border-radius: 999px;
+  background: var(--bg-soft);
+  color: var(--muted);
+  border: 1px solid var(--line);
+}
+
+.headline-kicker,
+.article-kicker,
+.topic-list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.topic-list {
+  margin-top: 1rem;
+}
+
+.topic-list span {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  color: var(--muted);
+  padding: 0.22rem 0.65rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+}
+
 /* ===== Article page ===== */
 .article {
   padding: 3rem 0 4rem;
@@ -608,6 +687,8 @@ html[data-theme='dark'] .tag-filter button.active {
   color: var(--muted);
   display: inline-flex;
   align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 0.6rem;
 }
 
@@ -822,6 +903,221 @@ html[data-theme='dark'] .tag-filter button.active {
   }
 }
 
+@media (max-width: 640px) {
+  body {
+    font-size: 16px;
+  }
+
+  .container,
+  .container-home,
+  .container-wide {
+    padding: 0 1rem;
+  }
+
+  .navbar-inner {
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    padding: 0.85rem 1rem;
+  }
+
+  .brand {
+    font-size: 1.05rem;
+  }
+
+  .nav-links {
+    width: 100%;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-right: 0;
+    font-size: 0.84rem;
+  }
+
+  .theme-toggle {
+    width: 32px;
+    height: 32px;
+    margin-left: 0;
+    flex: 0 0 auto;
+  }
+
+  .hero {
+    padding: 2.4rem 0 1.8rem;
+  }
+
+  .hero-eyebrow,
+  .section-label,
+  .big-date {
+    letter-spacing: 0.12em;
+  }
+
+  .hero-meta,
+  .headline-meta,
+  .post-item-top,
+  .article-meta {
+    column-gap: 0.5rem;
+    row-gap: 0.35rem;
+  }
+
+  .featured,
+  .posts {
+    padding-top: 1.6rem;
+  }
+
+  .headline {
+    padding-top: 1.2rem;
+  }
+
+  .article {
+    padding: 2rem 0 3rem;
+  }
+
+  .article-header {
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+  }
+
+  .article-body {
+    font-size: 1rem;
+    line-height: 1.78;
+    overflow-wrap: anywhere;
+  }
+
+  .article-body p {
+    text-align: left;
+  }
+
+  .article-body blockquote {
+    padding-left: 1rem;
+  }
+
+  .article-body pre {
+    padding: 1rem;
+    border-radius: var(--radius);
+  }
+
+  .article-body > p:first-of-type::first-letter {
+    float: none;
+    font-size: inherit;
+    font-weight: inherit;
+    line-height: inherit;
+    padding: 0;
+    color: inherit;
+  }
+}
+/* ===== Post pager ===== */
+.post-pager {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--line);
+}
+
+.pager-link {
+  display: block;
+  min-width: 0;
+  padding: 1rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  color: var(--ink);
+  background: color-mix(in srgb, var(--bg-elev) 64%, transparent);
+}
+
+.pager-link span {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  color: var(--muted);
+  margin-bottom: 0.35rem;
+}
+
+.pager-link strong {
+  display: block;
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  line-height: 1.35;
+  transition: color var(--transition);
+}
+
+.pager-link:hover strong {
+  color: var(--accent);
+}
+
+.pager-next {
+  text-align: right;
+}
+
+/* ===== Archive ===== */
+.archive-page,
+.not-found {
+  padding: 3rem 0 4rem;
+}
+
+.archive-page h1,
+.not-found h1 {
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 5vw, 2.6rem);
+  line-height: 1.2;
+  margin-bottom: 0.7rem;
+}
+
+.archive-intro,
+.not-found p {
+  color: var(--ink-soft);
+  font-size: 1rem;
+  line-height: 1.75;
+}
+
+.archive-list {
+  margin-top: 2.5rem;
+}
+
+.archive-group {
+  padding: 1.8rem 0;
+  border-top: 1px solid var(--line);
+}
+
+.archive-group h2 {
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: var(--muted);
+  margin-bottom: 1rem;
+}
+
+.archive-items {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.archive-item {
+  display: grid;
+  grid-template-columns: 5rem minmax(0, 1fr) auto;
+  gap: 1rem;
+  align-items: baseline;
+  padding: 0.65rem 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--line) 72%, transparent);
+}
+
+.archive-item:hover span {
+  color: var(--accent);
+}
+
+.archive-item time,
+.archive-item small {
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.archive-item span {
+  min-width: 0;
+  font-weight: 700;
+  line-height: 1.45;
+  transition: color var(--transition);
+}
+
 /* ===== Back link ===== */
 .back-link {
   font-family: var(--font-sans);
@@ -971,3 +1267,4 @@ html[data-theme='dark'] .tag-filter button.active {
   white-space: nowrap;
   border: 0;
 }
+

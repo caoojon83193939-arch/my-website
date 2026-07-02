@@ -4,16 +4,28 @@ import PostLayout from '../../layouts/PostLayout.astro';
 import readingTime from 'reading-time';
 
 export async function getStaticPaths() {
-  const posts = await getCollection('posts', ({ data }) => !data.draft);
-  return posts.map((entry) => ({
+  const posts = (await getCollection('posts', ({ data }) => !data.draft)).sort((a, b) => {
+    const byDate = b.data.date.getTime() - a.data.date.getTime();
+    return byDate || a.id.localeCompare(b.id);
+  });
+  return posts.map((entry, index) => ({
     params: { slug: entry.id },
-    props: { entry },
+    props: {
+      entry,
+      newerEntry: index > 0 ? posts[index - 1] : undefined,
+      olderEntry: index < posts.length - 1 ? posts[index + 1] : undefined,
+    },
   }));
 }
 
-const { entry } = Astro.props;
+const { entry, newerEntry, olderEntry } = Astro.props;
 const { Content, headings } = await render(entry);
 const readMin = Math.max(1, Math.round(readingTime(entry.body || '').minutes));
+const toAdjacent = (post: any, label: string) => post && ({
+  title: post.data.title,
+  href: `/posts/${post.id}/`,
+  label,
+});
 ---
 
 <PostLayout
@@ -23,6 +35,11 @@ const readMin = Math.max(1, Math.round(readingTime(entry.body || '').minutes));
   tag={entry.data.tag}
   readMin={readMin}
   headings={headings}
+  series={entry.data.series}
+  topics={entry.data.topics}
+  previousPost={toAdjacent(olderEntry, '上一篇')}
+  nextPost={toAdjacent(newerEntry, '下一篇')}
 >
   <Content />
 </PostLayout>
+
