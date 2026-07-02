@@ -1268,3 +1268,110 @@ html[data-theme='dark'] .tag-filter button.active {
   border: 0;
 }
 
+
+/* Final mobile overrides for non-home pages. Keep this block at the end. */
+@media (max-width: 640px) {
+  html,
+  body {
+    overflow-x: hidden;
+  }
+
+  .article-layout {
+    gap: 0;
+  }
+
+  .article-header h1,
+  .archive-page h1,
+  .not-found h1,
+  .about h1 {
+    font-size: clamp(1.85rem, 12vw, 2.25rem);
+    line-height: 1.18;
+  }
+
+  .article-kicker,
+  .topic-list {
+    justify-content: center;
+  }
+
+  .article-meta .dot {
+    display: none;
+  }
+
+  .post-pager {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+    margin-top: 1.8rem;
+    padding-top: 1.5rem;
+  }
+
+  .pager-link,
+  .pager-next {
+    text-align: left;
+  }
+
+  .pager-link {
+    padding: 0.9rem;
+  }
+
+  .archive-page,
+  .not-found,
+  .about {
+    padding: 2rem 0 3rem;
+  }
+
+  .archive-list {
+    margin-top: 1.6rem;
+  }
+
+  .archive-group {
+    padding: 1.35rem 0;
+  }
+
+  .archive-group h2 {
+    letter-spacing: 0.1em;
+    margin-bottom: 0.75rem;
+  }
+
+  .archive-item {
+    grid-template-columns: 1fr;
+    gap: 0.15rem;
+    align-items: start;
+    padding: 0.85rem 0;
+  }
+
+  .archive-item time,
+  .archive-item small {
+    font-size: 0.76rem;
+  }
+
+  .archive-item span {
+    line-height: 1.4;
+  }
+
+  .about-body,
+  .archive-intro,
+  .not-found p {
+    font-size: 1rem;
+    line-height: 1.72;
+  }
+
+  .about-stack {
+    gap: 0.4rem;
+  }
+
+  .about-stack span {
+    font-size: 0.78rem;
+  }
+
+  .about-links {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.65rem;
+  }
+
+  .about-links a {
+    width: 100%;
+    text-align: center;
+    padding: 0.65rem 1rem;
+  }
+}
