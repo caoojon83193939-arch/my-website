@@ -59,6 +59,10 @@ npm run build
 npm run preview
 ```
 
+## 用 Obsidian 写作（推荐）
+
+将仓库根目录作为 Obsidian Vault 打开即可写作。模板位于 `obsidian/博客文章.md`，发布流程见 [OBSIDIAN.md](./OBSIDIAN.md)。
+
 ## 写新文章
 
 推荐用脚本创建文章：
