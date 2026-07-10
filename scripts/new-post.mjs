@@ -82,6 +82,7 @@ try {
   const slugInput = await ask(rl, '文件名 slug', fallbackSlug);
   const slug = await uniqueSlug(slugify(slugInput) || fallbackSlug);
   const filePath = path.join(postsDir, `${slug}.md`);
+  const postImagesDir = path.join(imagesDir, slug);
 
   const frontmatter = [
     '---',
@@ -101,8 +102,8 @@ try {
   await writeFile(filePath, body, { encoding: 'utf8', flag: 'wx' });
 
   console.log(`\n已创建：${path.relative(process.cwd(), filePath)}`);
+  console.log(`图片目录：${path.relative(process.cwd(), postImagesDir)}`);
   console.log('写完后把 draft: true 改成 draft: false，再运行 npm run build。');
 } finally {
   rl.close();
 }
-
